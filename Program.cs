@@ -1,7 +1,11 @@
+using WebDevProje.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Dependency injection hatasýný önlemek için
+builder.Services.AddScoped<HastaneContext>();
 
 var app = builder.Build();
 

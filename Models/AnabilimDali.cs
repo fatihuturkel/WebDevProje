@@ -2,7 +2,7 @@
 
 namespace WebDevProje.Models
 {
-	public class AnabilimDalı
+	public class AnabilimDali
 	{
 		public int Id { get; set; }
 
@@ -19,21 +19,27 @@ namespace WebDevProje.Models
 		[Display(Name = "Yönetici")]
 		public string Yonetici { get; set; }
 
+		[Required]
 		[Display(Name ="Adres")]
 		public string Adres { get; set; }
 
+
+		[MaxLength(13)]
+		[MinLength(11)]
 		[Display(Name = "Telefon Numarası")]
-		public string Telefon { get; set; }
+		public string? Telefon { get; set; }
 
 		[Display(Name = "E-Posta Adresi")]
 		public string Eposta { get; set; }
 
 		[Display(Name = "Faks Numarası")]
-		public string Fax { get; set; }
+		public string? Fax { get; set; }
 
+		[Required]
 		[Display(Name = "Kuruluş Tarihi")]
 		public DateTime KurulusTarihi { get; set; }
 
+		[Required]
 		[Display(Name = "Aktiflik Durumu")]
 		public bool Statu { get; set; }
 	}

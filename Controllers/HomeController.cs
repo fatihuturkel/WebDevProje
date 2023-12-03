@@ -15,7 +15,7 @@ namespace WebDevProje.Controllers
 
 		public IActionResult Index()
 		{
-			AnabilimDalı anabilimDalı = new AnabilimDalı();
+			AnabilimDali anabilimDalı = new AnabilimDali();
 			anabilimDalı.Ad = "Kardiyoloji";
 			HastaneContext dbTest = new HastaneContext();
 
