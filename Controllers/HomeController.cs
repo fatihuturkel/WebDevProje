@@ -15,7 +15,20 @@ namespace WebDevProje.Controllers
 
 		public IActionResult Index()
 		{
+			AnabilimDalı anabilimDalı = new AnabilimDalı();
+			anabilimDalı.Ad = "Kardiyoloji";
+			HastaneContext dbTest = new HastaneContext();
+
+			if (dbTest.IsConnectionOpen())
+			{
+				ViewData["DatabaseConnection"] = "Veritabanı bağlantısı başarılı.";
+            }
+            else
+			{
+				ViewData["DatabaseConnection"] = "Veritabanı bağlantısı başarısız.";
+            }
 			return View();
+			
 		}
 
 		public IActionResult Privacy()
