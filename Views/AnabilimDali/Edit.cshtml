@@ -34,19 +34,19 @@
                 <span asp-validation-for="Adres" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Telefon" class="control-label"></label>
-                <input asp-for="Telefon" class="form-control" />
-                <span asp-validation-for="Telefon" class="text-danger"></span>
+                <label asp-for="TelefonNo" class="control-label"></label>
+                <input asp-for="TelefonNo" class="form-control" />
+                <span asp-validation-for="TelefonNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FaxNo" class="control-label"></label>
+                <input asp-for="FaxNo" class="form-control" />
+                <span asp-validation-for="FaxNo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Eposta" class="control-label"></label>
                 <input asp-for="Eposta" class="form-control" />
                 <span asp-validation-for="Eposta" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Fax" class="control-label"></label>
-                <input asp-for="Fax" class="form-control" />
-                <span asp-validation-for="Fax" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="KurulusTarihi" class="control-label"></label>
@@ -55,7 +55,7 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Statu" /> @Html.DisplayNameFor(model => model.Statu)
+                    <input class="form-check-input" asp-for="AktiflikDurumu" /> @Html.DisplayNameFor(model => model.AktiflikDurumu)
                 </label>
             </div>
             <div class="form-group">

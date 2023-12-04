@@ -25,19 +25,19 @@
                 @Html.DisplayNameFor(model => model.Adres)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Telefon)
+                @Html.DisplayNameFor(model => model.TelefonNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FaxNo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Eposta)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fax)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.KurulusTarihi)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Statu)
+                @Html.DisplayNameFor(model => model.AktiflikDurumu)
             </th>
             <th></th>
         </tr>
@@ -58,19 +58,19 @@
                 @Html.DisplayFor(modelItem => item.Adres)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Telefon)
+                @Html.DisplayFor(modelItem => item.TelefonNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FaxNo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Eposta)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Fax)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.KurulusTarihi)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Statu)
+                @Html.DisplayFor(modelItem => item.AktiflikDurumu)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

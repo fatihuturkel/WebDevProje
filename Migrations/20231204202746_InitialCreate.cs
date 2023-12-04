@@ -18,14 +18,14 @@ namespace WebDevProje.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Aciklama = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Aciklama = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Yonetici = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Adres = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Telefon = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Adres = table.Column<int>(type: "int", maxLength: 100, nullable: false),
+                    TelefonNo = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    FaxNo = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Eposta = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Fax = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     KurulusTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Statu = table.Column<bool>(type: "bit", nullable: false)
+                    AktiflikDurumu = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

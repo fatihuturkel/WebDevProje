@@ -18,7 +18,7 @@ namespace WebDevProje.Controllers
             _context = context;
         }
 
-        // GET: AnabilimDalis
+        // GET: AnabilimDali
         public async Task<IActionResult> Index()
         {
               return _context.AnabilimDallari != null ? 
@@ -26,7 +26,7 @@ namespace WebDevProje.Controllers
                           Problem("Entity set 'HastaneContext.AnabilimDallari'  is null.");
         }
 
-        // GET: AnabilimDalis/Details/5
+        // GET: AnabilimDali/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.AnabilimDallari == null)
@@ -44,18 +44,18 @@ namespace WebDevProje.Controllers
             return View(anabilimDali);
         }
 
-        // GET: AnabilimDalis/Create
+        // GET: AnabilimDali/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: AnabilimDalis/Create
+        // POST: AnabilimDali/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ad,Aciklama,Yonetici,Adres,Telefon,Eposta,Fax,KurulusTarihi,Statu")] AnabilimDali anabilimDali)
+        public async Task<IActionResult> Create([Bind("Id,Ad,Aciklama,Yonetici,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] AnabilimDali anabilimDali)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace WebDevProje.Controllers
             return View(anabilimDali);
         }
 
-        // GET: AnabilimDalis/Edit/5
+        // GET: AnabilimDali/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.AnabilimDallari == null)
@@ -82,12 +82,12 @@ namespace WebDevProje.Controllers
             return View(anabilimDali);
         }
 
-        // POST: AnabilimDalis/Edit/5
+        // POST: AnabilimDali/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,Yonetici,Adres,Telefon,Eposta,Fax,KurulusTarihi,Statu")] AnabilimDali anabilimDali)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,Yonetici,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] AnabilimDali anabilimDali)
         {
             if (id != anabilimDali.Id)
             {
@@ -117,7 +117,7 @@ namespace WebDevProje.Controllers
             return View(anabilimDali);
         }
 
-        // GET: AnabilimDalis/Delete/5
+        // GET: AnabilimDali/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.AnabilimDallari == null)
@@ -135,7 +135,7 @@ namespace WebDevProje.Controllers
             return View(anabilimDali);
         }
 
-        // POST: AnabilimDalis/Delete/5
+        // POST: AnabilimDali/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

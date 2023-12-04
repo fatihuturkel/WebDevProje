@@ -1,46 +1,63 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WebDevProje.Models
 {
-	public class AnabilimDali
-	{
-		public int Id { get; set; }
+    public class AnabilimDali
+    {
+        public int Id { get; set; }
 
-		[Required]
-		[MaxLength(50)]
-		[MinLength(5)]
-		[Display(Name = "Anabilim Dalı Adı")]
-		public string Ad { get; set; }
+        // string length should be bewteen 5 and 50
+        [Required]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Anabilim dalı adı 2 ile 50 karakter arasında olmalıdır.")]
+        [Display(Name = "Anabilim Dalı Adı")]
+        public string Ad { get; set; }
 
-		[MaxLength(250)]
-		[Display(Name = "Açıklama")]
-		public string? Aciklama { get; set; }
+        [AllowNull]
+        [MaxLength(500)]
+        [Display(Name = "Açıklama")]
+        public string Aciklama { get; set; }
 
-		[Display(Name = "Yönetici")]
-		public string Yonetici { get; set; }
+        // yonetici alanı sadece harflerden oluşmalıdır
+        [AllowNull]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Yönetici alanı sadece harflerden oluşmalıdır.")]
+        [Display(Name = "Yönetici Ad-Soyad")]
+        public string Yonetici { get; set; }
 
-		[Required]
-		[Display(Name ="Adres")]
-		public string Adres { get; set; }
+        [Required]
+        [MaxLength(100)]
+        [Display(Name = "Adres")]
+        public int Adres { get; set; }
 
+        // telefon alanı sadece sayılardan oluşmalıdır ve 10 haneli olmalıdır
+        [Required]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Telefon alanı sadece sayılardan oluşmalıdır ve 10 haneli olmalıdır.")]
+        [StringLength(10)]
+        [Display(Name = "Telefon Numarası")]
+        public string TelefonNo { get; set; }
 
-		[MaxLength(13)]
-		[MinLength(11)]
-		[Display(Name = "Telefon Numarası")]
-		public string? Telefon { get; set; }
+        // fax alanı sadece sayılardan oluşmalıdır ve 10 haneli olmalıdır
+        [AllowNull]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Fax alanı sadece sayılardan oluşmalıdır ve 10 haneli olmalıdır.")]
+        [StringLength(10)]
+        [Display(Name = "Fax Numarası")]
+        public string FaxNo { get; set; }
 
-		[Display(Name = "E-Posta Adresi")]
-		public string Eposta { get; set; }
+        // eposta alanı 
+        [Required]
+        [EmailAddress(ErrorMessage = "Eposta formatında olmalıdır.")]
+        [Display(Name = "Eposta Adresi")]
+        public string Eposta { get; set; }
 
-		[Display(Name = "Faks Numarası")]
-		public string? Fax { get; set; }
+        // Kuruluş tarihi
+        [Required]
+        [Display(Name = "Kuruluş Tarihi")]
+        public DateTime KurulusTarihi { get; set; }
 
-		[Required]
-		[Display(Name = "Kuruluş Tarihi")]
-		public DateTime KurulusTarihi { get; set; }
+        // aktiflik durumu
+        [Required]
+        [Display(Name = "Aktiflik Durumu")]
+        public bool AktiflikDurumu { get; set; }
 
-		[Required]
-		[Display(Name = "Aktiflik Durumu")]
-		public bool Statu { get; set; }
-	}
+    }
 }
