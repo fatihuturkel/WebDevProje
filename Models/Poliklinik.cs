@@ -17,19 +17,19 @@ namespace WebDevProje.Models
         [AllowNull]
         [MaxLength(500)]
         [Display(Name = "Açıklama")]
-        public string Aciklama { get; set; }
+        public string? Aciklama { get; set; }
 
         //yönetici adı
         [AllowNull]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Yönetici alanı sadece harflerden oluşmalıdır.")]
         [Display(Name = "Yönetici Ad-Soyad")]
-        public string Yonetici { get; set; }
+        public string? Yonetici { get; set; }
 
         //poliklinik adresi
         [Required]
         [MaxLength(100)]
         [Display(Name = "Adres")]
-        public int Adres { get; set; }
+        public string Adres { get; set; }
 
 
         //poliklinik telefon numarası
@@ -44,7 +44,7 @@ namespace WebDevProje.Models
         [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Fax alanı sadece sayılardan oluşmalıdır ve 10 haneli olmalıdır.")]
         [StringLength(10)]
         [Display(Name = "Fax Numarası")]
-        public string FaxNo { get; set; }
+        public string? FaxNo { get; set; }
 
         //poliklinik eposta adresi
 
