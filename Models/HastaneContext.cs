@@ -6,6 +6,7 @@ namespace WebDevProje.Models
     public class HastaneContext : DbContext
     {
         public DbSet<AnabilimDali> AnabilimDallari { get; set; }
+        public DbSet<Poliklinik> Poliklinikler { get; set; }
 
         private const string ConnectionString = "" +
             "Server=FutV4\\SQLEXPRESS;" +

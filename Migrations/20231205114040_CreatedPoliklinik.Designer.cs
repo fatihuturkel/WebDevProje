@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebDevProje.Models;
 
@@ -11,9 +12,11 @@ using WebDevProje.Models;
 namespace WebDevProje.Migrations
 {
     [DbContext(typeof(HastaneContext))]
-    partial class HastaneContextModelSnapshot : ModelSnapshot
+    [Migration("20231205114040_CreatedPoliklinik")]
+    partial class CreatedPoliklinik
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,6 +109,7 @@ namespace WebDevProje.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FaxNo")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
