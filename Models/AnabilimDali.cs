@@ -20,8 +20,8 @@ namespace WebDevProje.Models
 
         // yonetici alanı sadece harflerden oluşmalıdır
         [AllowNull]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Yönetici alanı sadece harflerden oluşmalıdır.")]
-        [Display(Name = "Yönetici Ad-Soyad")]
+        [RegularExpression(@"^[a-zA-ZçÇğĞıİöÖşŞüÜ]+(\s[a-zA-ZçÇğĞıİöÖşŞüÜ]+)*$", ErrorMessage = "Yönetici alanı sadece harflerden oluşmalıdır.")]
+        [Display(Name = "Yönetici Adı-Soyadı")]
         public string? Yonetici { get; set; }
 
         [Required]
@@ -46,7 +46,7 @@ namespace WebDevProje.Models
         // eposta alanı 
         [Required(ErrorMessage = "Bu alan boş olamaz.")]
         [EmailAddress(ErrorMessage = "Eposta formatında olmalıdır.")]
-        [Display(Name = "Eposta Adresi")]
+        [Display(Name = "E-posta Adresi")]
         public string Eposta { get; set; }
 
         // Kuruluş tarihi
