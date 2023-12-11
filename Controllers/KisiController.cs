@@ -101,6 +101,15 @@ namespace WebDevProje.Controllers
 
             if (ModelState.IsValid)
             {
+                // bu blokta eğer doktor, hemşire, işçi ve yönetici görevlerinden sadece birinin veya hiçbirinin seçilmemesini sağlar
+                var selectedRolesCount = new[] { kisi.Doktor, kisi.Hemsire, kisi.Isci, kisi.Yonetici }.Count(x => x);
+
+                if (selectedRolesCount > 1)
+                {
+                    ModelState.AddModelError("", "Doktor, hemşire, işçi ve yönetici görevleri arasından biri seçilmelidir.");
+                    return View(kisi);
+                }
+
                 try
                 {
                     _context.Update(kisi);

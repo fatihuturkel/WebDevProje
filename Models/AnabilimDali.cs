@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace WebDevProje.Models
@@ -18,11 +19,21 @@ namespace WebDevProje.Models
         [Display(Name = "Açıklama")]
         public string? Aciklama { get; set; }
 
+        /*
         // yonetici alanı sadece harflerden oluşmalıdır
         [AllowNull]
         [RegularExpression(@"^[a-zA-ZçÇğĞıİöÖşŞüÜ]+(\s[a-zA-ZçÇğĞıİöÖşŞüÜ]+)*$", ErrorMessage = "Yönetici alanı sadece harflerden oluşmalıdır.")]
         [Display(Name = "Yönetici Adı-Soyadı")]
-        public string? Yonetici { get; set; }
+        public string? Yonetici { get; set; }*/
+
+
+        [Required]
+        [Display(Name = "Yönetici")]
+        public int YoneticiId { get; set; }
+
+        // yonetici alanı 
+        [Display(Name = "Yönetici Adı-Soyadı")]
+        public Kisi Yonetici { get; set; }
 
         [Required]
         [MaxLength(100)]

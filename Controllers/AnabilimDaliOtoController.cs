@@ -9,24 +9,23 @@ using WebDevProje.Models;
 
 namespace WebDevProje.Controllers
 {
-    public class AnabilimDaliController : Controller
+    public class AnabilimDaliOtoController : Controller
     {
         private readonly HastaneContext _context;
 
-        public AnabilimDaliController(HastaneContext context)
+        public AnabilimDaliOtoController(HastaneContext context)
         {
             _context = context;
         }
 
-        // GET: AnabilimDali
+        // GET: AnabilimDaliOto
         public async Task<IActionResult> Index()
         {
-              return _context.AnabilimDallari != null ? 
-                          View(await _context.AnabilimDallari.ToListAsync()) :
-                          Problem("Entity set 'HastaneContext.AnabilimDallari'  is null.");
+            var hastaneContext = _context.AnabilimDallari.Include(a => a.Yonetici);
+            return View(await hastaneContext.ToListAsync());
         }
 
-        // GET: AnabilimDali/Details/5
+        // GET: AnabilimDaliOto/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.AnabilimDallari == null)
@@ -35,6 +34,7 @@ namespace WebDevProje.Controllers
             }
 
             var anabilimDali = await _context.AnabilimDallari
+                .Include(a => a.Yonetici)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (anabilimDali == null)
             {
@@ -44,32 +44,14 @@ namespace WebDevProje.Controllers
             return View(anabilimDali);
         }
 
-        /*
-        // GET: AnabilimDali/Create
+        // GET: AnabilimDaliOto/Create
         public IActionResult Create()
         {
-            return View();
-        }*/
-
-        public async Task<IActionResult> Create()
-        {
-            // Get all yöneticiler from Kisi table
-            var yoneticiler = await _context.Kisiler
-                .Where(k => k.Yonetici)
-                .Select(k => new { Id = k.Id, DisplayName = k.Ad + " " + k.Soyad + " ("+k.TcKimlikNo+")" }) // Create an anonymous object
-                .ToListAsync();
-
-            // Create a SelectList for yöneticiler dropdown with both Ad and Soyad
-            var yoneticilerDropdown = new SelectList(yoneticiler, "Id", "DisplayName");
-
-            // Pass the yoneticilerDropdown to the view
-            ViewData["Yoneticiler"] = yoneticilerDropdown;
-
+            ViewData["YoneticiId"] = new SelectList(_context.Kisiler, "Id", "Ad");
             return View();
         }
 
-
-        // POST: AnabilimDali/Create
+        // POST: AnabilimDaliOto/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -78,38 +60,15 @@ namespace WebDevProje.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Assuming _context is your database context
-                // Retrieve the selected Yonetici from the database
-                var selectedYonetici = await _context.Kisiler.FindAsync(anabilimDali.YoneticiId);
-
-                // Set the Yonetici property of AnabilimDali
-                anabilimDali.Yonetici = selectedYonetici;
-
-                // Add AnabilimDali to the context and save changes
                 _context.Add(anabilimDali);
                 await _context.SaveChangesAsync();
-
                 return RedirectToAction(nameof(Index));
             }
-
-            // Get all yöneticiler from Kisi table
-            var yoneticiler = await _context.Kisiler
-                .Where(k => k.Yonetici)
-                .Select(k => new { Id = k.Id, DisplayName = k.Ad + " " + k.Soyad + " (" + k.TcKimlikNo + ")" }) // Create an anonymous object
-                .ToListAsync();
-
-            // Create a SelectList for yöneticiler dropdown with both Ad and Soyad
-            var yoneticilerDropdown = new SelectList(yoneticiler, "Id", "DisplayName");
-
-            // Pass the yoneticilerDropdown to the view
-            ViewData["Yoneticiler"] = yoneticilerDropdown;
-
+            ViewData["YoneticiId"] = new SelectList(_context.Kisiler, "Id", "Ad", anabilimDali.YoneticiId);
             return View(anabilimDali);
         }
 
-
-
-        // GET: AnabilimDali/Edit/5
+        // GET: AnabilimDaliOto/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.AnabilimDallari == null)
@@ -122,15 +81,16 @@ namespace WebDevProje.Controllers
             {
                 return NotFound();
             }
+            ViewData["YoneticiId"] = new SelectList(_context.Kisiler, "Id", "Ad", anabilimDali.YoneticiId);
             return View(anabilimDali);
         }
 
-        // POST: AnabilimDali/Edit/5
+        // POST: AnabilimDaliOto/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,Yonetici,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] AnabilimDali anabilimDali)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,YoneticiId,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] AnabilimDali anabilimDali)
         {
             if (id != anabilimDali.Id)
             {
@@ -157,10 +117,11 @@ namespace WebDevProje.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["YoneticiId"] = new SelectList(_context.Kisiler, "Id", "Ad", anabilimDali.YoneticiId);
             return View(anabilimDali);
         }
 
-        // GET: AnabilimDali/Delete/5
+        // GET: AnabilimDaliOto/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.AnabilimDallari == null)
@@ -169,6 +130,7 @@ namespace WebDevProje.Controllers
             }
 
             var anabilimDali = await _context.AnabilimDallari
+                .Include(a => a.Yonetici)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (anabilimDali == null)
             {
@@ -178,7 +140,7 @@ namespace WebDevProje.Controllers
             return View(anabilimDali);
         }
 
-        // POST: AnabilimDali/Delete/5
+        // POST: AnabilimDaliOto/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

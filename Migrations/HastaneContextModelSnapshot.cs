@@ -63,10 +63,12 @@ namespace WebDevProje.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("Yonetici")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("YoneticiId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("YoneticiId");
 
                     b.ToTable("AnabilimDallari");
                 });
@@ -181,6 +183,17 @@ namespace WebDevProje.Migrations
                     b.HasIndex("AnabilimDaliId");
 
                     b.ToTable("Poliklinikler");
+                });
+
+            modelBuilder.Entity("WebDevProje.Models.AnabilimDali", b =>
+                {
+                    b.HasOne("WebDevProje.Models.Kisi", "Yonetici")
+                        .WithMany()
+                        .HasForeignKey("YoneticiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Yonetici");
                 });
 
             modelBuilder.Entity("WebDevProje.Models.Poliklinik", b =>

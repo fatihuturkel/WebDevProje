@@ -67,17 +67,5 @@ namespace WebDevProje.Models
         [Display(Name = "Yönetici")]
         public bool Yonetici { get; set; }
 
-        /*
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            // Custom validation logic to ensure a person cannot be a doctor, nurse, worker and manager at the same time
-            if ((Doktor && (Hemsire || Isci || Yonetici)) ||
-                (Hemsire && (Doktor || Isci || Yonetici)) ||
-                (Isci && (Doktor || Hemsire || Yonetici)) ||
-                (Yonetici && (Doktor || Hemsire || Isci)))
-            {
-                yield return new ValidationResult("Doktor, hemşire, işçi ve yönetici görevleri arasından biri seçilmelidir.", new[] { nameof(Doktor), nameof(Hemsire), nameof(Isci), nameof(Yonetici) });
-            }
-        }*/
     }
 }

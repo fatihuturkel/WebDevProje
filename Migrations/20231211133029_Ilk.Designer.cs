@@ -12,8 +12,8 @@ using WebDevProje.Models;
 namespace WebDevProje.Migrations
 {
     [DbContext(typeof(HastaneContext))]
-    [Migration("20231205225534_KisiClassCreated")]
-    partial class KisiClassCreated
+    [Migration("20231211133029_Ilk")]
+    partial class Ilk
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,10 +66,12 @@ namespace WebDevProje.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("Yonetici")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("YoneticiId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("YoneticiId");
 
                     b.ToTable("AnabilimDallari");
                 });
@@ -184,6 +186,17 @@ namespace WebDevProje.Migrations
                     b.HasIndex("AnabilimDaliId");
 
                     b.ToTable("Poliklinikler");
+                });
+
+            modelBuilder.Entity("WebDevProje.Models.AnabilimDali", b =>
+                {
+                    b.HasOne("WebDevProje.Models.Kisi", "Yonetici")
+                        .WithMany()
+                        .HasForeignKey("YoneticiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Yonetici");
                 });
 
             modelBuilder.Entity("WebDevProje.Models.Poliklinik", b =>
