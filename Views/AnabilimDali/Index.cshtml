@@ -52,7 +52,12 @@
                 @Html.DisplayFor(modelItem => item.Aciklama)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Yonetici)
+                @{
+                    // show yonetici full name
+                    var yonetici = item.Yonetici;
+					var yoneticiFullName = yonetici.Ad + " " + yonetici.Soyad;
+					@Html.DisplayFor(modelItem => yoneticiFullName)
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Adres)
@@ -61,7 +66,11 @@
                 @Html.DisplayFor(modelItem => item.TelefonNo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FaxNo)
+                @{
+                // If fax number is null, display a hyphen
+                var faxNo = item.FaxNo ?? "-";
+                }
+                @Html.DisplayFor(modelItem => faxNo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Eposta)

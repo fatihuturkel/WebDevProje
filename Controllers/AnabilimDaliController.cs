@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebDevProje.Models;
@@ -21,9 +17,8 @@ namespace WebDevProje.Controllers
         // GET: AnabilimDali
         public async Task<IActionResult> Index()
         {
-              return _context.AnabilimDallari != null ? 
-                          View(await _context.AnabilimDallari.ToListAsync()) :
-                          Problem("Entity set 'HastaneContext.AnabilimDallari'  is null.");
+            var hastaneContext = _context.AnabilimDallari.Include(a => a.Yonetici);
+            return View(await hastaneContext.ToListAsync());
         }
 
         // GET: AnabilimDali/Details/5
@@ -56,7 +51,7 @@ namespace WebDevProje.Controllers
             // Get all yöneticiler from Kisi table
             var yoneticiler = await _context.Kisiler
                 .Where(k => k.Yonetici)
-                .Select(k => new { Id = k.Id, DisplayName = k.Ad + " " + k.Soyad + " ("+k.TcKimlikNo+")" }) // Create an anonymous object
+                .Select(k => new { Id = k.Id, DisplayName = k.Ad + " " + k.Soyad + " (" + k.TcKimlikNo + ")" }) // Create an anonymous object
                 .ToListAsync();
 
             // Create a SelectList for yöneticiler dropdown with both Ad and Soyad
@@ -192,14 +187,14 @@ namespace WebDevProje.Controllers
             {
                 _context.AnabilimDallari.Remove(anabilimDali);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AnabilimDaliExists(int id)
         {
-          return (_context.AnabilimDallari?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.AnabilimDallari?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
