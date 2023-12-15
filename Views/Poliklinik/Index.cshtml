@@ -19,9 +19,6 @@
                 @Html.DisplayNameFor(model => model.Aciklama)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Yonetici)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Adres)
             </th>
             <th>
@@ -39,6 +36,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.AktiflikDurumu)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnabilimDali)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -50,9 +50,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aciklama)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Yonetici)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Adres)
@@ -71,6 +68,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AktiflikDurumu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnabilimDali.Ad)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

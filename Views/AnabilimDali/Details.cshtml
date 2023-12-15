@@ -26,7 +26,12 @@
             @Html.DisplayNameFor(model => model.Yonetici)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Yonetici)
+			@{
+				// show yonetici full name
+				var yonetici = Model.Yonetici;
+                var yoneticiFullName = yonetici.Ad + " " + yonetici.Soyad;
+                @Html.DisplayFor(model => yoneticiFullName)
+			}
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Adres)

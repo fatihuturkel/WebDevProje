@@ -21,9 +21,8 @@ namespace WebDevProje.Controllers
         // GET: Poliklinik
         public async Task<IActionResult> Index()
         {
-              return _context.Poliklinikler != null ? 
-                          View(await _context.Poliklinikler.ToListAsync()) :
-                          Problem("Entity set 'HastaneContext.Poliklinikler'  is null.");
+            var hastaneContext = _context.Poliklinikler.Include(p => p.AnabilimDali);
+            return View(await hastaneContext.ToListAsync());
         }
 
         // GET: Poliklinik/Details/5
@@ -35,6 +34,7 @@ namespace WebDevProje.Controllers
             }
 
             var poliklinik = await _context.Poliklinikler
+                .Include(p => p.AnabilimDali)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (poliklinik == null)
             {
@@ -47,6 +47,7 @@ namespace WebDevProje.Controllers
         // GET: Poliklinik/Create
         public IActionResult Create()
         {
+            ViewData["AnabilimDaliId"] = new SelectList(_context.AnabilimDallari, "Id", "Ad");
             return View();
         }
 
@@ -55,7 +56,7 @@ namespace WebDevProje.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ad,Aciklama,Yonetici,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] Poliklinik poliklinik)
+        public async Task<IActionResult> Create([Bind("Id,Ad,Aciklama,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu,AnabilimDaliId")] Poliklinik poliklinik)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +64,7 @@ namespace WebDevProje.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AnabilimDaliId"] = new SelectList(_context.AnabilimDallari, "Id", "Ad", poliklinik.AnabilimDaliId);
             return View(poliklinik);
         }
 
@@ -79,6 +81,7 @@ namespace WebDevProje.Controllers
             {
                 return NotFound();
             }
+            ViewData["AnabilimDaliId"] = new SelectList(_context.AnabilimDallari, "Id", "Ad", poliklinik.AnabilimDaliId);
             return View(poliklinik);
         }
 
@@ -87,7 +90,7 @@ namespace WebDevProje.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,Yonetici,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] Poliklinik poliklinik)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu,AnabilimDaliId")] Poliklinik poliklinik)
         {
             if (id != poliklinik.Id)
             {
@@ -114,6 +117,7 @@ namespace WebDevProje.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AnabilimDaliId"] = new SelectList(_context.AnabilimDallari, "Id", "Ad", poliklinik.AnabilimDaliId);
             return View(poliklinik);
         }
 
@@ -126,6 +130,7 @@ namespace WebDevProje.Controllers
             }
 
             var poliklinik = await _context.Poliklinikler
+                .Include(p => p.AnabilimDali)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (poliklinik == null)
             {
@@ -156,7 +161,7 @@ namespace WebDevProje.Controllers
 
         private bool PoliklinikExists(int id)
         {
-          return (_context.Poliklinikler?.Any(e => e.Id == id)).GetValueOrDefault();
+          return _context.Poliklinikler.Any(e => e.Id == id);
         }
     }
 }

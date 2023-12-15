@@ -30,6 +30,7 @@ namespace WebDevProje.Controllers
             }
 
             var anabilimDali = await _context.AnabilimDallari
+                .Include(a => a.Yonetici)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (anabilimDali == null)
             {
@@ -39,13 +40,7 @@ namespace WebDevProje.Controllers
             return View(anabilimDali);
         }
 
-        /*
         // GET: AnabilimDali/Create
-        public IActionResult Create()
-        {
-            return View();
-        }*/
-
         public async Task<IActionResult> Create()
         {
             // Get all yöneticiler from Kisi table
@@ -73,12 +68,13 @@ namespace WebDevProje.Controllers
         {
             if (ModelState.IsValid)
             {
+                /* Gerekli gibi durmuyor.
                 // Assuming _context is your database context
                 // Retrieve the selected Yonetici from the database
                 var selectedYonetici = await _context.Kisiler.FindAsync(anabilimDali.YoneticiId);
 
                 // Set the Yonetici property of AnabilimDali
-                anabilimDali.Yonetici = selectedYonetici;
+                anabilimDali.Yonetici = selectedYonetici;*/
 
                 // Add AnabilimDali to the context and save changes
                 _context.Add(anabilimDali);
@@ -117,6 +113,18 @@ namespace WebDevProje.Controllers
             {
                 return NotFound();
             }
+            // Get all yöneticiler from Kisi table
+            var yoneticiler = await _context.Kisiler
+                .Where(k => k.Yonetici)
+                .Select(k => new { Id = k.Id, DisplayName = k.Ad + " " + k.Soyad + " (" + k.TcKimlikNo + ")" }) // Create an anonymous object
+                .ToListAsync();
+
+            // Create a SelectList for yöneticiler dropdown with both Ad and Soyad
+            var yoneticilerDropdown = new SelectList(yoneticiler, "Id", "DisplayName");
+
+            // Pass the yoneticilerDropdown to the view
+            ViewData["Yoneticiler"] = yoneticilerDropdown;
+
             return View(anabilimDali);
         }
 
@@ -125,7 +133,7 @@ namespace WebDevProje.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,Yonetici,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] AnabilimDali anabilimDali)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,YoneticiId,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] AnabilimDali anabilimDali)
         {
             if (id != anabilimDali.Id)
             {
@@ -152,6 +160,18 @@ namespace WebDevProje.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            
+            // Get all yöneticiler from Kisi table
+            var yoneticiler = await _context.Kisiler
+                .Where(k => k.Yonetici)
+                .Select(k => new { Id = k.Id, DisplayName = k.Ad + " " + k.Soyad + " (" + k.TcKimlikNo + ")" }) // Create an anonymous object
+                .ToListAsync();
+
+            // Create a SelectList for yöneticiler dropdown with both Ad and Soyad
+            var yoneticilerDropdown = new SelectList(yoneticiler, "Id", "DisplayName");
+
+            // Pass the yoneticilerDropdown to the view
+            ViewData["Yoneticiler"] = yoneticilerDropdown;
             return View(anabilimDali);
         }
 
@@ -164,6 +184,7 @@ namespace WebDevProje.Controllers
             }
 
             var anabilimDali = await _context.AnabilimDallari
+                .Include(a => a.Yonetici)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (anabilimDali == null)
             {

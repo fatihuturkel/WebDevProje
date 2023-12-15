@@ -19,18 +19,11 @@ namespace WebDevProje.Models
         [Display(Name = "Açıklama")]
         public string? Aciklama { get; set; }
 
-        //yönetici adı
-        [AllowNull]
-        [RegularExpression(@"^[a-zA-ZçÇğĞıİöÖşŞüÜ]+(\s[a-zA-ZçÇğĞıİöÖşŞüÜ]+)*$", ErrorMessage = "Yönetici alanı sadece harflerden oluşmalıdır.")]
-        [Display(Name = "Yönetici Adı-Soyadı")]
-        public string? Yonetici { get; set; }
-
         //poliklinik adresi
         [Required]
         [MaxLength(100)]
         [Display(Name = "Adres")]
         public string Adres { get; set; }
-
 
         //poliklinik telefon numarası
         [Required(ErrorMessage = "Bu alan boş olamaz.")]
@@ -63,9 +56,10 @@ namespace WebDevProje.Models
         [Display(Name = "Aktiflik Durumu")]
         public bool AktiflikDurumu { get; set; }
 
+        public int AnabilimDaliId { get; set; }
+
         //polikliniğin bağlı olduğu anabilim dalı
         [Display(Name = "Bağlı Olduğu Anabilim Dalı")]
         public AnabilimDali AnabilimDali { get; set; }
-
     }
 }

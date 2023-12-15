@@ -23,12 +23,6 @@
             @Html.DisplayFor(model => model.Aciklama)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Yonetici)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Yonetici)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Adres)
         </dt>
         <dd class = "col-sm-10">
@@ -63,6 +57,12 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AktiflikDurumu)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AnabilimDali)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AnabilimDali.Ad)
         </dd>
     </dl>
 </div>
