@@ -15,8 +15,6 @@ namespace WebDevProje.Controllers
 
 		public IActionResult Index()
 		{
-			AnabilimDali anabilimDalı = new AnabilimDali();
-			anabilimDalı.Ad = "Kardiyoloji";
 			HastaneContext dbTest = new HastaneContext();
 
 			if (dbTest.IsConnectionOpen())

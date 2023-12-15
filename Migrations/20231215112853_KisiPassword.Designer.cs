@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebDevProje.Models;
 
@@ -11,9 +12,11 @@ using WebDevProje.Models;
 namespace WebDevProje.Migrations
 {
     [DbContext(typeof(HastaneContext))]
-    partial class HastaneContextModelSnapshot : ModelSnapshot
+    [Migration("20231215112853_KisiPassword")]
+    partial class KisiPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,9 +132,6 @@ namespace WebDevProje.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<bool>("Yonetici")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("adminMi")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");

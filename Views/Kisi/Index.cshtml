@@ -48,6 +48,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Yonetici)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sifre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.adminMi)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -91,10 +97,19 @@
                 @Html.DisplayFor(modelItem => item.Yonetici)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Sifre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.adminMi)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
+            
+
+            
         </tr>
 }
     </tbody>

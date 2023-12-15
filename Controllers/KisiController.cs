@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using WebDevProje.Models;
 
 namespace WebDevProje.Controllers
@@ -51,13 +50,13 @@ namespace WebDevProje.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ad,Soyad,Cinsiyet,DogumTarihi,TelefonNo,Eposta,TcKimlikNo,Doktor,Hasta,Hemsire,Isci,Yonetici")] Kisi kisi)
+        public async Task<IActionResult> Create([Bind("Id,Ad,Soyad,Cinsiyet,DogumTarihi,TelefonNo,Eposta,TcKimlikNo,Doktor,Hasta,Hemsire,Isci,Yonetici,Sifre")] Kisi kisi)
         {
             if (ModelState.IsValid)
             {
                 // bu blokta eğer doktor, hemşire, işçi ve yönetici görevlerinden sadece birinin veya hiçbirinin seçilmemesini sağlar
                 var selectedRolesCount = new[] { kisi.Doktor, kisi.Hemsire, kisi.Isci, kisi.Yonetici }.Count(x => x);
-                
+
                 if (selectedRolesCount > 1)
                 {
                     ModelState.AddModelError("", "Doktor, hemşire, işçi ve yönetici görevleri arasından biri seçilmelidir.");
@@ -68,6 +67,7 @@ namespace WebDevProje.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(kisi);
         }
 
@@ -92,7 +92,7 @@ namespace WebDevProje.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Soyad,Cinsiyet,DogumTarihi,TelefonNo,Eposta,TcKimlikNo,Doktor,Hasta,Hemsire,Isci,Yonetici")] Kisi kisi)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Soyad,Cinsiyet,DogumTarihi,TelefonNo,Eposta,TcKimlikNo,Doktor,Hasta,Hemsire,Isci,Yonetici,Sifre,adminMi")] Kisi kisi)
         {
             if (id != kisi.Id)
             {
@@ -171,6 +171,64 @@ namespace WebDevProje.Controllers
         private bool KisiExists(int id)
         {
             return (_context.Kisiler?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        // login
+        // GET: Kisi/Login
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        // POST: Kisi/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([Bind("TcKimlikNo,Sifre")] Kisi Kisi)
+        {
+            // remove all errors from model state except tc kimlik no and password
+            foreach (var key in ModelState.Keys.ToList())
+            {
+                if (key != "TcKimlikNo" && key != "Sifre")
+                {
+                    ModelState.Remove(key);
+                }
+            }
+
+            // if model state is valid then check tc kimlik no and password
+            if (ModelState.IsValid)
+            {
+                // search tc kimlik no in database
+                var kisi = await _context.Kisiler.FirstOrDefaultAsync(m => m.TcKimlikNo == Kisi.TcKimlikNo);
+                if (kisi == null)
+                {
+                    ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir kişi bulunmamaktadır. Lütfen kayıt olunuz.");
+                    return View(Kisi);
+                }
+                else
+                if (kisi.Hasta == true)
+                {
+                    // check password
+                    if (Kisi.Sifre == kisi.Sifre)
+                    {
+                        // login
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Sifre", "Şifre hatalı.");
+                        return View(Kisi);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir hasta bulunmamaktadır. Lütfen kayıt olunuz.");
+                    return View(Kisi);
+                }
+            }
+            else
+            {
+                return View(Kisi);
+            }
         }
     }
 }

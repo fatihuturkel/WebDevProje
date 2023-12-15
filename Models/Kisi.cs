@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace WebDevProje.Models
@@ -66,6 +68,17 @@ namespace WebDevProje.Models
 
         [Display(Name = "Yönetici")]
         public bool Yonetici { get; set; }
+
+        // kullanıcı türü. Bu alan admin için true, diğer kullanıcılar için false değerini alır. default değeri false'tur.
+        [DefaultValue(false)]
+        public bool adminMi { get; set; }
+
+        // password should be between 6 and 15 characters
+        [Required(ErrorMessage = "Bu alan boş olamaz.")]
+        [StringLength(15, MinimumLength = 6, ErrorMessage = "Şifre alanı 6 ile 15 karakter arasında olmalıdır.")]
+        [Display(Name = "Şifre")]
+        public string Sifre { get; set; }
+
 
     }
 }
