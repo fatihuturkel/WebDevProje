@@ -1,18 +1,17 @@
 ﻿@model WebDevProje.Models.Kisi
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Kayit";
 }
 
-<h1>Edit</h1>
+<h1>Kayit</h1>
 
 <h4>Kisi</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Kayit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Ad" class="control-label"></label>
                 <input asp-for="Ad" class="form-control" />
@@ -52,43 +51,13 @@
                 <input asp-for="TcKimlikNo" class="form-control" />
                 <span asp-validation-for="TcKimlikNo" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Doktor" /> @Html.DisplayNameFor(model => model.Doktor)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Hasta" /> @Html.DisplayNameFor(model => model.Hasta)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Hemsire" /> @Html.DisplayNameFor(model => model.Hemsire)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Isci" /> @Html.DisplayNameFor(model => model.Isci)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Yonetici" /> @Html.DisplayNameFor(model => model.Yonetici)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="adminMi" /> @Html.DisplayNameFor(model => model.adminMi)
-                </label>
-            </div>
             <div class="form-group">
                 <label asp-for="Sifre" class="control-label"></label>
                 <input asp-for="Sifre" class="form-control" />
                 <span asp-validation-for="Sifre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

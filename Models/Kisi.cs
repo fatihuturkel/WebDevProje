@@ -71,6 +71,7 @@ namespace WebDevProje.Models
 
         // kullanıcı türü. Bu alan admin için true, diğer kullanıcılar için false değerini alır. default değeri false'tur.
         [DefaultValue(false)]
+        [Display(Name = "Admin")]
         public bool adminMi { get; set; }
 
         // password should be between 6 and 15 characters
@@ -78,7 +79,5 @@ namespace WebDevProje.Models
         [StringLength(15, MinimumLength = 6, ErrorMessage = "Şifre alanı 6 ile 15 karakter arasında olmalıdır.")]
         [Display(Name = "Şifre")]
         public string Sifre { get; set; }
-
-
     }
 }

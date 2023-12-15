@@ -161,6 +161,11 @@ namespace WebDevProje.Controllers
             var kisi = await _context.Kisiler.FindAsync(id);
             if (kisi != null)
             {
+                if(kisi.Yonetici==true)
+                {
+                    ModelState.AddModelError("Yonetici", "Yönetici silinemez.");
+                    return View(kisi);
+                }
                 _context.Kisiler.Remove(kisi);
             }
 
@@ -229,6 +234,40 @@ namespace WebDevProje.Controllers
             {
                 return View(Kisi);
             }
+        }
+
+
+        // Get: Kisi/Kayit
+        public IActionResult Kayit()
+        {
+            return View();
+        }
+
+        // Post: Kisi/Kayit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Kayit([Bind("Id,Ad,Soyad,Cinsiyet,DogumTarihi,TelefonNo,Eposta,TcKimlikNo,Sifre")] Kisi kisi)
+        {
+            //search if tc kimlik no is already in database and if it is then return hasta attribute of that person
+            var kisiInDb = await _context.Kisiler.FirstOrDefaultAsync(m => m.TcKimlikNo == kisi.TcKimlikNo);
+            if(kisiInDb is not null)
+            {
+                if (kisiInDb.Hasta == true)
+                {
+                    ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir hasta bulunmaktadır. Lütfen giriş yapınız.");
+                    return View(kisi);
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                kisi.Hasta = true;
+                _context.Add(kisi);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(kisi);
         }
     }
 }

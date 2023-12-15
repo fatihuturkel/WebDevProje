@@ -2,10 +2,24 @@
 
 @{
     ViewData["Title"] = "Delete";
+    
 }
-
 <h1>Delete</h1>
-
+@{
+    //show model state errors
+if (!ViewData.ModelState.IsValid)
+	{
+		<div class="alert alert-danger" role="alert">
+			@foreach (var modelState in ViewData.ModelState.Values)
+			{
+				foreach (var error in modelState.Errors)
+				{
+					@Html.Raw(error.ErrorMessage);
+				}
+			}
+		</div>
+	}
+}
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Kisi</h4>
