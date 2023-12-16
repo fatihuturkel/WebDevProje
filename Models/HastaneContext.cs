@@ -8,6 +8,7 @@ namespace WebDevProje.Models
         public DbSet<AnabilimDali> AnabilimDallari { get; set; }
         public DbSet<Poliklinik> Poliklinikler { get; set; }
         public DbSet<Kisi> Kisiler { get; set; }
+        public DbSet<Doktor> Doktorlar { get; set; }
 
         private const string ConnectionString = "" +
             "Server=FutV4\\SQLEXPRESS;" +
