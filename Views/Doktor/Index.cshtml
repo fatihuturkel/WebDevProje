@@ -27,8 +27,13 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kisi.Ad)
+                <td>
+            @{
+                // show doktor full name
+                var kisi = item.Kisi;
+                var kisiFullName = kisi.Ad + " " + kisi.Soyad;
+                @Html.DisplayFor(model => kisiFullName);
+            }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Maas)

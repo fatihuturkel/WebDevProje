@@ -13,8 +13,19 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Kisi)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Kisi.Ad)
+        <dd class="col-sm-10">
+        @{
+			// show doctor full name
+			var kisi = Model.Kisi;
+			var kisiFullName = kisi.Ad + " " + kisi.Soyad;
+			@Html.DisplayFor(model => kisiFullName)
+        }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Kisi.TcKimlikNo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Kisi.TcKimlikNo)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Maas)

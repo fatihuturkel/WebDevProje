@@ -48,7 +48,12 @@ namespace WebDevProje.Controllers
         // GET: Doktor/Create
         public IActionResult Create()
         {
-            ViewData["Id"] = new SelectList(_context.Kisiler, "Id", "Ad");
+            // Get all kisiler from Kisi table where doktor is true
+            var kisiler = _context.Kisiler
+                .Where(k => k.Doktor)
+                .Select(k => new { Id = k.Id, DisplayName = k.Ad + " " + k.Soyad + " (" + k.TcKimlikNo + ")" }) // Create an anonymous object
+                .ToList();
+            ViewData["Id"] = new SelectList(kisiler, "Id", "DisplayName");
             ViewData["PoliklinikId"] = new SelectList(_context.Poliklinikler, "Id", "Ad");
             return View();
         }
@@ -66,7 +71,13 @@ namespace WebDevProje.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id"] = new SelectList(_context.Kisiler, "Id", "Ad", doktor.Id);
+
+            // Get all kisiler from Kisi table where doktor is true
+            var kisiler = _context.Kisiler
+                .Where(k => k.Doktor)
+                .Select(k => new { Id = k.Id, DisplayName = k.Ad + " " + k.Soyad + " (" + k.TcKimlikNo + ")" }) // Create an anonymous object
+                .ToList();
+            ViewData["Id"] = new SelectList(kisiler, "Id", "DisplayName");
             ViewData["PoliklinikId"] = new SelectList(_context.Poliklinikler, "Id", "Ad", doktor.PoliklinikId);
             return View(doktor);
         }
