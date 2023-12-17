@@ -73,24 +73,6 @@ namespace WebDevProje.Migrations
                     b.ToTable("AnabilimDallari");
                 });
 
-            modelBuilder.Entity("WebDevProje.Models.Doktor", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Maas")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PoliklinikId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PoliklinikId");
-
-                    b.ToTable("Doktorlar");
-                });
-
             modelBuilder.Entity("WebDevProje.Models.Kisi", b =>
                 {
                     b.Property<int>("Id")
@@ -217,25 +199,6 @@ namespace WebDevProje.Migrations
                         .IsRequired();
 
                     b.Navigation("Yonetici");
-                });
-
-            modelBuilder.Entity("WebDevProje.Models.Doktor", b =>
-                {
-                    b.HasOne("WebDevProje.Models.Kisi", "Kisi")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebDevProje.Models.Poliklinik", "Poliklinik")
-                        .WithMany()
-                        .HasForeignKey("PoliklinikId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Kisi");
-
-                    b.Navigation("Poliklinik");
                 });
 
             modelBuilder.Entity("WebDevProje.Models.Poliklinik", b =>
