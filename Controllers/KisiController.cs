@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebDevProje.Models;
 
 namespace WebDevProje.Controllers
@@ -216,7 +217,10 @@ namespace WebDevProje.Controllers
                     if (Kisi.Sifre == kisi.Sifre)
                     {
                         // login
-                        return RedirectToAction("Index", "Home");
+                        // save kisi object as json in session
+                        string kisiJson=JsonConvert.SerializeObject(kisi);
+                        HttpContext.Session.SetString("kisi", kisiJson);
+                        return RedirectToAction("Profile", "Kisi");
                     }
                     else
                     {
@@ -269,5 +273,30 @@ namespace WebDevProje.Controllers
 
             return View(kisi);
         }
+
+        // logout
+        // GET: Kisi/Logout
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("kisi");
+            return RedirectToAction("Index", "Home");
+        }
+
+        // GET: Kisi/Profil
+        public IActionResult Profile()
+        {
+            // get kisi object from session
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+            else
+            {
+                var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+                return View(kisi);
+            }
+        }
+
     }
 }
