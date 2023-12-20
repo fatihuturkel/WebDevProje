@@ -162,7 +162,7 @@ namespace WebDevProje.Controllers
             var kisi = await _context.Kisiler.FindAsync(id);
             if (kisi != null)
             {
-                if(kisi.Yonetici==true)
+                if (kisi.Yonetici == true)
                 {
                     ModelState.AddModelError("Yonetici", "Yönetici silinemez.");
                     return View(kisi);
@@ -211,14 +211,13 @@ namespace WebDevProje.Controllers
                     return View(Kisi);
                 }
                 else
-                if (kisi.Hasta == true)
                 {
                     // check password
                     if (Kisi.Sifre == kisi.Sifre)
                     {
                         // login
                         // save kisi object as json in session
-                        string kisiJson=JsonConvert.SerializeObject(kisi);
+                        string kisiJson = JsonConvert.SerializeObject(kisi);
                         HttpContext.Session.SetString("kisi", kisiJson);
                         return RedirectToAction("Profile", "Kisi");
                     }
@@ -227,11 +226,6 @@ namespace WebDevProje.Controllers
                         ModelState.AddModelError("Sifre", "Şifre hatalı.");
                         return View(Kisi);
                     }
-                }
-                else
-                {
-                    ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir hasta bulunmamaktadır. Lütfen kayıt olunuz.");
-                    return View(Kisi);
                 }
             }
             else
@@ -254,7 +248,7 @@ namespace WebDevProje.Controllers
         {
             //search if tc kimlik no is already in database and if it is then return hasta attribute of that person
             var kisiInDb = await _context.Kisiler.FirstOrDefaultAsync(m => m.TcKimlikNo == kisi.TcKimlikNo);
-            if(kisiInDb is not null)
+            if (kisiInDb is not null)
             {
                 if (kisiInDb.Hasta == true)
                 {

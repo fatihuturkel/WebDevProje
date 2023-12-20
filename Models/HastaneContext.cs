@@ -9,6 +9,9 @@ namespace WebDevProje.Models
         public DbSet<Poliklinik> Poliklinikler { get; set; }
         public DbSet<Kisi> Kisiler { get; set; }
         public DbSet<Doktor> Doktorlar { get; set; }
+        public DbSet<Hasta> Hastalar { get; set; }
+        public DbSet<Randevu> Randevular { get; set; }
+
 
         private const string ConnectionString = "" +
             "Server=FutV4\\SQLEXPRESS;" +
