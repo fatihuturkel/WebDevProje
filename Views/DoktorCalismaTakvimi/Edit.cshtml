@@ -1,0 +1,74 @@
+﻿@model WebDevProje.Models.DoktorCalismaTakvimi
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>DoktorCalismaTakvimi</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="DoktorId" class="control-label"></label>
+                <select asp-for="DoktorId" class="form-control" asp-items="ViewBag.DoktorId"></select>
+                <span asp-validation-for="DoktorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tarih" class="control-label"></label>
+                <input asp-for="Tarih" class="form-control" />
+                <span asp-validation-for="Tarih" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="dokuz_on" class="control-label"></label>
+                <input asp-for="dokuz_on" class="form-control" />
+                <span asp-validation-for="dokuz_on" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="on_onbir" class="control-label"></label>
+                <input asp-for="on_onbir" class="form-control" />
+                <span asp-validation-for="on_onbir" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="onbir_oniki" class="control-label"></label>
+                <input asp-for="onbir_oniki" class="form-control" />
+                <span asp-validation-for="onbir_oniki" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="onuc_ondort" class="control-label"></label>
+                <input asp-for="onuc_ondort" class="form-control" />
+                <span asp-validation-for="onuc_ondort" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ondort_onbes" class="control-label"></label>
+                <input asp-for="ondort_onbes" class="form-control" />
+                <span asp-validation-for="ondort_onbes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="onbes_onalti" class="control-label"></label>
+                <input asp-for="onbes_onalti" class="form-control" />
+                <span asp-validation-for="onbes_onalti" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="onalti_onyedi" class="control-label"></label>
+                <input asp-for="onalti_onyedi" class="form-control" />
+                <span asp-validation-for="onalti_onyedi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

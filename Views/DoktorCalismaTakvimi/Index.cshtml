@@ -1,0 +1,83 @@
+﻿@model IEnumerable<WebDevProje.Models.DoktorCalismaTakvimi>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Doktor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dokuz_on)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.on_onbir)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.onbir_oniki)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.onuc_ondort)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ondort_onbes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.onbes_onalti)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.onalti_onyedi)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Doktor.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dokuz_on)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.on_onbir)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.onbir_oniki)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.onuc_ondort)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ondort_onbes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.onbes_onalti)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.onalti_onyedi)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

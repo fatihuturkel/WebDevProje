@@ -11,6 +11,7 @@ namespace WebDevProje.Models
         public DbSet<Doktor> Doktorlar { get; set; }
         public DbSet<Hasta> Hastalar { get; set; }
         public DbSet<Randevu> Randevular { get; set; }
+        public DbSet<DoktorCalismaTakvimi> DoktorCalismaTakvimleri { get; set; }
 
 
         private const string ConnectionString = "" +

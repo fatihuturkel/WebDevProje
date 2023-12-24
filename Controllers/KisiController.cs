@@ -292,5 +292,11 @@ namespace WebDevProje.Controllers
             }
         }
 
+
+        // GET: Kisi/NotAuthorized
+        public IActionResult NotAuthorized()
+        {
+            return View();
+        }
     }
 }
