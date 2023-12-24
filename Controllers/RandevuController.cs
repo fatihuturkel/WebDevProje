@@ -363,7 +363,6 @@ namespace WebDevProje.Controllers
 
             int hastaId = kisi.Id;
 
-
             DateTime DTselectedTarih = DateTime.Parse(selectedTarih);
 
             // find doktor calisma takvimi in doktor calisma takvimi table
@@ -383,26 +382,30 @@ namespace WebDevProje.Controllers
                     break;
                 case "onbir_oniki":
                     selectedSaat = "11:00:00";
+                    doktorCalismaTakvimi.onbir_oniki = 2;
                     break;
                 case "onuc_ondort":
                     selectedSaat = "13:00:00";
+                    doktorCalismaTakvimi.onuc_ondort = 2;
                     break;
                 case "ondort_onbes":
                     selectedSaat = "14:00:00";
+                    doktorCalismaTakvimi.ondort_onbes = 2;
                     break;
                 case "onbes_onalti":
                     selectedSaat = "15:00:00";
+                    doktorCalismaTakvimi.onbes_onalti = 2;
                     break;
                 case "onalti_onyedi":
                     selectedSaat = "16:00:00";
+                    doktorCalismaTakvimi.onalti_onyedi = 2;
                     break;
                 default:
                     break;
             }
 
-
             // take selectedTarih and selectedSaat and combine them to create a DateTime object
-            string selectedTarihandSaat =  DateTime.Parse(selectedTarih).ToString("dd/MM/yyyy") + " " + selectedSaat;
+            string selectedTarihandSaat = DateTime.Parse(selectedTarih).ToString("dd/MM/yyyy") + " " + selectedSaat;
 
             DateTime DTselectedTarihandSaat = DateTime.Parse(selectedTarihandSaat);
 
@@ -414,13 +417,6 @@ namespace WebDevProje.Controllers
                 PoliklinikId = Int32.Parse(selectedPoliklinik),
                 Tarih = DTselectedTarihandSaat
             };
-
-            // find doktor calisma takvimi in doktor calisma takvimi table
-            //var doktorCalismaTakvimi = _context.DoktorCalismaTakvimleri.FirstOrDefault(d => d.DoktorId == randevu.DoktorId && d.Tarih == DTselectedTarih);
-
-
-
-
 
             _context.Add(randevu);
             _context.SaveChanges();
