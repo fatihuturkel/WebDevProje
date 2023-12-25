@@ -1,0 +1,75 @@
+﻿@model WebDevProje.Models.DoktorCalismaTakvimi
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>DoktorCalismaTakvimi</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tarih)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tarih)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Doktor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Doktor.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.dokuz_on)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.dokuz_on)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.on_onbir)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.on_onbir)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.onbir_oniki)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.onbir_oniki)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.onuc_ondort)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.onuc_ondort)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ondort_onbes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ondort_onbes)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.onbes_onalti)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.onbes_onalti)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.onalti_onyedi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.onalti_onyedi)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

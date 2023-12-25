@@ -1,0 +1,50 @@
+﻿@model WebDevProje.Models.Doktor
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Doktor</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Kisi)
+        </dt>
+        <dd class = "col-sm-10">
+            @{
+                // show doctor full name
+                var kisi = Model.Kisi;
+                var kisiFullName = kisi.Ad + " " + kisi.Soyad;
+                @Html.DisplayFor(model => kisiFullName)
+            }
+        </dd>
+        <dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Kisi.TcKimlikNo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Kisi.TcKimlikNo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Maas)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Maas)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Poliklinik)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Poliklinik.Ad)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

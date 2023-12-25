@@ -1,0 +1,49 @@
+﻿@model WebDevProje.Models.Randevu
+
+@{
+    ViewData["Title"] = "randevuAl";
+    var hastaid = TempData["hastaid"];
+}
+
+<h1>randevuAl</h1>
+
+<h4>Randevu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="GetRandevuAnaBilim">
+            @if (ViewData["AnabilimDaliId"] is SelectList anabilimDaliIdList)
+            {
+                <p>Anabilim Dali:</p>
+                @Html.DropDownList("AnabilimDaliId", anabilimDaliIdList, "Select Anabilim Dali")
+            }
+            @{
+                // make a date selection
+                var dateList = new List<SelectListItem>();
+				for (int i = 0; i < 14; i++)
+				{
+					dateList.Add(new SelectListItem
+					{
+						Text = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy"),
+						Value = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy")
+					});
+				}
+				<p>Date:</p>
+				@Html.DropDownList("Date", dateList, "Select Date")
+            }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
