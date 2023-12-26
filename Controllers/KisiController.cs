@@ -298,5 +298,80 @@ namespace WebDevProje.Controllers
         {
             return View();
         }
+
+        // get: adminlogin
+        public IActionResult AdminLogin()
+        {
+            return View();
+        }
+
+        // post: adminlogin
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminLogin([Bind("TcKimlikNo,Sifre")] Kisi Kisi)
+        {
+            // remove all errors from model state except tc kimlik no and password
+            foreach (var key in ModelState.Keys.ToList())
+            {
+                if (key != "TcKimlikNo" && key != "Sifre")
+                {
+                    ModelState.Remove(key);
+                }
+            }
+
+            // if model state is valid then check tc kimlik no and password
+            if (ModelState.IsValid)
+            {
+                // search tc kimlik no in database
+                var kisi = await _context.Kisiler.FirstOrDefaultAsync(m => m.TcKimlikNo == Kisi.TcKimlikNo);
+                if (kisi == null)
+                {
+                    ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir kişi bulunmamaktadır.");
+                    return View(Kisi);
+                }
+                else
+                {
+                    if (kisi.adminMi == false)
+                    {
+                        ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir admin bulunmamaktadır.");
+                        return View(Kisi);
+                    }
+                    // check password
+                    if (Kisi.Sifre == kisi.Sifre)
+                    {
+                        // login
+                        // save kisi object as json in session
+                        string kisiJson = JsonConvert.SerializeObject(kisi);
+                        HttpContext.Session.SetString("kisi", kisiJson);
+                        return RedirectToAction("SuccessfulLogin", "Kisi");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Sifre", "Şifre hatalı.");
+                        return View(Kisi);
+                    }
+                }
+            }
+            else
+            {
+                return View(Kisi);
+            }
+        }
+
+
+        // get: successfull login
+        public IActionResult SuccessfulLogin()
+        {
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+            else
+            {
+                var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+                return View(kisi);
+            }
+        }
     }
 }

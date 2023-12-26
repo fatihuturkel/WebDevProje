@@ -204,7 +204,7 @@ namespace WebDevProje.Controllers
         }
 
         // GET: Randevu/GetRandevu
-        public async Task<IActionResult> GetRandevu()
+        public IActionResult GetRandevu()
         {
             // get session data from cookie for current user and if it is null, redirect to login page
             var kisiJson = HttpContext.Session.GetString("kisi");
@@ -232,7 +232,7 @@ namespace WebDevProje.Controllers
         // POST: Randevu/GetRandevu just for anabilim dali
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GetRandevuAnaBilim()
+        public IActionResult GetRandevuAnaBilim()
         {
             // get session data from cookie for current user and if it is null, redirect to login page
             var kisiJson = HttpContext.Session.GetString("kisi");
@@ -343,14 +343,15 @@ namespace WebDevProje.Controllers
         // post/GetRandevu 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public string GetRandevu(string selectedPoliklinik, string selectedDoktor, string selectedSaat, string selectedTarih)
+        public IActionResult GetRandevu(string selectedPoliklinik, string selectedDoktor, string selectedSaat, string selectedTarih)
         {
 
             // get session data from cookie for current user and if it is null, redirect to login page
             var kisiJson = HttpContext.Session.GetString("kisi");
             if (kisiJson == null)
             {
-                return "Kisi session data is null";
+                //return RedirectToAction("Login", "Kisi");
+                return RedirectToAction("Login", "Kisi");
             }
             // get hasta id from session data
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
@@ -358,7 +359,7 @@ namespace WebDevProje.Controllers
             if (kisi.Hasta == false)
             {
                 // show not authorized page in kisi controller
-                return "Kisi is not a Hasta";
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             int hastaId = kisi.Id;
@@ -420,7 +421,34 @@ namespace WebDevProje.Controllers
 
             _context.Add(randevu);
             _context.SaveChanges();
-            return "Randevu alındı";
+
+            //return RedirectToAction("Success", "Randevu", new { id = randevu.Id });
+            return RedirectToAction("Success", "Randevu", new { id = randevu.Id });
         }
+
+
+        // show success page after randevu is taken and show randevu details
+        public IActionResult Success(int? id)
+        {
+            if (id == null || _context.Randevular == null)
+            {
+                return NotFound();
+            }
+
+            var randevu = _context.Randevular
+                .Include(r => r.Doktor)
+                .Include(r => r.Hasta)
+                .Include(r => r.Poliklinik)
+                .Include(r => r.Doktor.Kisi)
+                .Include(r => r.Hasta.Kisi)
+                .FirstOrDefault(m => m.Id == id);
+            if (randevu == null)
+            {
+                return NotFound();
+            }
+
+            return View(randevu);
+        }
+
     }
 }

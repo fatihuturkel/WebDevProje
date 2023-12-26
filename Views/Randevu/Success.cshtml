@@ -1,0 +1,66 @@
+﻿@model WebDevProje.Models.Randevu
+
+@{
+    ViewData["Title"] = "Success";
+}
+
+<h1>Success</h1>
+
+<div>
+    <h4>Randevu</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tarih)
+        </dt>
+        <dd class = "col-sm-10">
+            @{
+				//show the date of the appointment
+				var tarih = Model.Tarih;
+				var tarihString = tarih.ToString("dd/MM/yyyy");
+                var saatString = tarih.ToString("HH:mm");
+                var tarihSaatString = tarihString + " " + saatString;
+				@Html.DisplayFor(model => tarihSaatString)
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Hasta)
+        </dt>
+        <dd class = "col-sm-10">
+            @{
+                //show the name of the patient
+                var hasta = Model.Hasta;
+                var hastaFullName = hasta.Kisi.Ad + " " + hasta.Kisi.Soyad;
+                @Html.DisplayFor(model => hastaFullName)
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Doktor)
+        </dt>
+        <dd class = "col-sm-10">
+            @{
+				//show the name of the doctor
+				var doktor = Model.Doktor;
+				var doktorFullName = doktor.Kisi.Ad + " " + doktor.Kisi.Soyad;
+				@Html.DisplayFor(model => doktorFullName)
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Poliklinik)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Poliklinik.Ad)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Poliklinik.Adres)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Poliklinik.Adres)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
