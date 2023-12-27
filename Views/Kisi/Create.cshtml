@@ -6,7 +6,9 @@
 
 <h1>Create</h1>
 
-<h4>Kisi</h4>
+<h4>
+    @_localization.Getkey("Kisi").Value
+</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -25,9 +27,9 @@
             <div class="form-group">
                 <label asp-for="Cinsiyet" class="control-label"></label>
                 <select asp-for="Cinsiyet" class="form-control">
-                    <option value="">Lütfen cinsiyet seçiniz.</option>
-                    <option value="E">Erkek</option>
-                    <option value="K">Kadın</option>
+                    <option value="">@_localization.Getkey("Lütfen Cinsiyet Seçiniz").Value</option>
+                    <option value="E">@_localization.Getkey("Erkek").Value</option>
+                    <option value="K">@_localization.Getkey("Kdın").Value</option>
                 </select>
                 <span asp-validation-for="Cinsiyet" class="text-danger"></span>
             </div>
@@ -81,7 +83,7 @@
 				<input asp-for="Sifre" class="form-control" />
 				<span asp-validation-for="Sifre" class="text-danger"></span>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="@_localization.Getkey("Ekle")" class="btn btn-primary" />
             </div>
         </form>
     </div>

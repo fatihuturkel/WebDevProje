@@ -7,7 +7,7 @@
 <h1>Create</h1>
 
 
-<h4>Hasta</h4>
+<h4>@_localization.Getkey("Hasta").Value</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,7 +18,7 @@
                 <select asp-for="Id" class ="form-control" asp-items="ViewBag.Id"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@_localization.Getkey("Ekle")" class="btn btn-primary" />
             </div>
         </form>
     </div>

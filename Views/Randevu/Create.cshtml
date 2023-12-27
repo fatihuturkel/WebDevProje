@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>Randevu</h4>
+<h4>@_localization.Getkey("Randevu").Value</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,15 +14,15 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="HastaId" class="control-label"></label>
-                <select asp-for="HastaId" class ="form-control" asp-items="ViewBag.HastaId"></select>
+                <select asp-for="HastaId" class="form-control" asp-items="ViewBag.HastaId">@_localization.Getkey("HastaId").Value</select>
             </div>
             <div class="form-group">
                 <label asp-for="DoktorId" class="control-label"></label>
-                <select asp-for="DoktorId" class ="form-control" asp-items="ViewBag.DoktorId"></select>
+                <select asp-for="DoktorId" class="form-control" asp-items="ViewBag.DoktorId">@_localization.Getkey("DoktorId").Value</select>
             </div>
             <div class="form-group">
                 <label asp-for="PoliklinikId" class="control-label"></label>
-                <select asp-for="PoliklinikId" class ="form-control" asp-items="ViewBag.PoliklinikId"></select>
+                <select asp-for="PoliklinikId" class="form-control" asp-items="ViewBag.PoliklinikId">@_localization.Getkey("PoliklinikId").Value</select>
             </div>
             <div class="form-group">
                 <label asp-for="Tarih" class="control-label"></label>
@@ -30,7 +30,7 @@
                 <span asp-validation-for="Tarih" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@_localization.Getkey("Ekle")" class="btn btn-primary" />
             </div>
         </form>
     </div>

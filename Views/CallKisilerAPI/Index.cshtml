@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WebDevProje.Models.Kisi>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" asp-controller="Kisi">@_localization.Getkey("Yeni Kisi Olustur") </a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ad) <!-- 'Ad' ve 'Soyad', Kisi modelinizdeki özellikler olmalıdır -->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Soyad)
+            </th>
+
+            <!-- Diğer gerekli sütunlarınızı buraya ekleyin -->
+            <th>
+                @Html.DisplayNameFor(model => model.Cinsiyet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DogumTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelefonNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eposta)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soyad)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cinsiyet)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DogumTarihi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TelefonNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Eposta)
+                </td>
+
+
+
+            <!-- Diğer özellikler için hücrelerinizi buraya ekleyin -->
+            <td>
+                    <a asp-action="Edit" asp-controller="Kisi" asp-route-id="@item.Id">Edit</a> | <!-- 'Id', Kisi modelinizdeki uygun özellik olmalıdır -->
+                    <a asp-action="Details" asp-controller="Kisi" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-controller="Kisi" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
