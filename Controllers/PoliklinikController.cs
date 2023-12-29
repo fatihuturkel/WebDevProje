@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebDevProje.Models;
 
 namespace WebDevProje.Controllers
@@ -21,6 +18,14 @@ namespace WebDevProje.Controllers
         // GET: Poliklinik
         public async Task<IActionResult> Index()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             var hastaneContext = _context.Poliklinikler.Include(p => p.AnabilimDali);
             return View(await hastaneContext.ToListAsync());
         }
@@ -28,6 +33,14 @@ namespace WebDevProje.Controllers
         // GET: Poliklinik/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Poliklinikler == null)
             {
                 return NotFound();
@@ -47,6 +60,14 @@ namespace WebDevProje.Controllers
         // GET: Poliklinik/Create
         public IActionResult Create()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             ViewData["AnabilimDaliId"] = new SelectList(_context.AnabilimDallari, "Id", "Ad");
             return View();
         }
@@ -58,6 +79,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Ad,Aciklama,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu,AnabilimDaliId")] Poliklinik poliklinik)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(poliklinik);
@@ -71,6 +100,14 @@ namespace WebDevProje.Controllers
         // GET: Poliklinik/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Poliklinikler == null)
             {
                 return NotFound();
@@ -92,6 +129,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu,AnabilimDaliId")] Poliklinik poliklinik)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id != poliklinik.Id)
             {
                 return NotFound();
@@ -124,6 +169,14 @@ namespace WebDevProje.Controllers
         // GET: Poliklinik/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Poliklinikler == null)
             {
                 return NotFound();
@@ -145,6 +198,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (_context.Poliklinikler == null)
             {
                 return Problem("Entity set 'HastaneContext.Poliklinikler'  is null.");
@@ -154,14 +215,14 @@ namespace WebDevProje.Controllers
             {
                 _context.Poliklinikler.Remove(poliklinik);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PoliklinikExists(int id)
         {
-          return _context.Poliklinikler.Any(e => e.Id == id);
+            return _context.Poliklinikler.Any(e => e.Id == id);
         }
     }
 }

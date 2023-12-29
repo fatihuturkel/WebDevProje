@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebDevProje.Models;
 
 namespace WebDevProje.Controllers
@@ -17,6 +18,14 @@ namespace WebDevProje.Controllers
         // GET: AnabilimDali
         public async Task<IActionResult> Index()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             var hastaneContext = _context.AnabilimDallari.Include(a => a.Yonetici);
             return View(await hastaneContext.ToListAsync());
         }
@@ -24,6 +33,14 @@ namespace WebDevProje.Controllers
         // GET: AnabilimDali/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.AnabilimDallari == null)
             {
                 return NotFound();
@@ -43,6 +60,14 @@ namespace WebDevProje.Controllers
         // GET: AnabilimDali/Create
         public async Task<IActionResult> Create()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             // Get all yöneticiler from Kisi table
             var yoneticiler = await _context.Kisiler
                 .Where(k => k.Yonetici)
@@ -65,7 +90,15 @@ namespace WebDevProje.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Ad,Aciklama,YoneticiId,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] AnabilimDali anabilimDali)
-        {
+        {   
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (ModelState.IsValid)
             {
                 /* Gerekli gibi durmuyor.
@@ -103,6 +136,14 @@ namespace WebDevProje.Controllers
         // GET: AnabilimDali/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.AnabilimDallari == null)
             {
                 return NotFound();
@@ -135,6 +176,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Aciklama,YoneticiId,Adres,TelefonNo,FaxNo,Eposta,KurulusTarihi,AktiflikDurumu")] AnabilimDali anabilimDali)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id != anabilimDali.Id)
             {
                 return NotFound();
@@ -178,6 +227,14 @@ namespace WebDevProje.Controllers
         // GET: AnabilimDali/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.AnabilimDallari == null)
             {
                 return NotFound();
@@ -199,6 +256,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (_context.AnabilimDallari == null)
             {
                 return Problem("Entity set 'HastaneContext.AnabilimDallari'  is null.");

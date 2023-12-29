@@ -17,6 +17,15 @@ namespace WebDevProje.Controllers
         // GET: Kisi
         public async Task<IActionResult> Index()
         {
+
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             return _context.Kisiler != null ?
                         View(await _context.Kisiler.ToListAsync()) :
                         Problem("Entity set 'HastaneContext.Kisiler'  is null.");
@@ -25,6 +34,14 @@ namespace WebDevProje.Controllers
         // GET: Kisi/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Kisiler == null)
             {
                 return NotFound();
@@ -43,6 +60,13 @@ namespace WebDevProje.Controllers
         // GET: Kisi/Create
         public IActionResult Create()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
             return View();
         }
 
@@ -75,6 +99,14 @@ namespace WebDevProje.Controllers
         // GET: Kisi/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Kisiler == null)
             {
                 return NotFound();
@@ -135,6 +167,14 @@ namespace WebDevProje.Controllers
         // GET: Kisi/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Kisiler == null)
             {
                 return NotFound();
@@ -155,6 +195,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (_context.Kisiler == null)
             {
                 return Problem("Entity set 'HastaneContext.Kisiler'  is null.");
@@ -183,6 +231,13 @@ namespace WebDevProje.Controllers
         // GET: Kisi/Login
         public IActionResult Login()
         {
+            // if kisi is already logged in then redirect to profile page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is not null)
+            {
+                return RedirectToAction("Profile", "Kisi");
+            }
+
             return View();
         }
 
@@ -191,6 +246,13 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([Bind("TcKimlikNo,Sifre")] Kisi Kisi)
         {
+            // if kisi is already logged in then redirect to profile page
+            var kisiJsonForLogedIn = HttpContext.Session.GetString("kisi");
+            if (kisiJsonForLogedIn is not null)
+            {
+                return RedirectToAction("Profile", "Kisi");
+            }
+
             // remove all errors from model state except tc kimlik no and password
             foreach (var key in ModelState.Keys.ToList())
             {
@@ -238,6 +300,12 @@ namespace WebDevProje.Controllers
         // Get: Kisi/Kayit
         public IActionResult Kayit()
         {
+            // if kisi is already logged in then redirect to profile page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is not null)
+            {
+                return RedirectToAction("Profile", "Kisi");
+            }
             return View();
         }
 
@@ -246,15 +314,19 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Kayit([Bind("Id,Ad,Soyad,Cinsiyet,DogumTarihi,TelefonNo,Eposta,TcKimlikNo,Sifre")] Kisi kisi)
         {
+            // if kisi is already logged in then redirect to profile page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is not null)
+            {
+                return RedirectToAction("Profile", "Kisi");
+            }
+
             //search if tc kimlik no is already in database and if it is then return hasta attribute of that person
             var kisiInDb = await _context.Kisiler.FirstOrDefaultAsync(m => m.TcKimlikNo == kisi.TcKimlikNo);
             if (kisiInDb is not null)
             {
-                if (kisiInDb.Hasta == true)
-                {
-                    ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir hasta bulunmaktadır. Lütfen giriş yapınız.");
-                    return View(kisi);
-                }
+                ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir kişi bulunmaktadır. Lütfen giriş yapınız. Eğer hastanemizde çalışıyorsanız lütfen Bilgi Teknolojileri Departmanı ile iletişime geçiniz.");
+                return View(kisi);
             }
 
             if (ModelState.IsValid)
@@ -279,6 +351,14 @@ namespace WebDevProje.Controllers
         // GET: Kisi/Profil
         public IActionResult Profile()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             // get kisi object from session
             var kisiJson = HttpContext.Session.GetString("kisi");
             if (kisiJson is null)
@@ -296,12 +376,25 @@ namespace WebDevProje.Controllers
         // GET: Kisi/NotAuthorized
         public IActionResult NotAuthorized()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
             return View();
         }
 
         // get: adminlogin
         public IActionResult AdminLogin()
         {
+            // if kisi is already logged in then redirect to profile page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is not null)
+            {
+                return RedirectToAction("Profile", "Kisi");
+            }
             return View();
         }
 
@@ -310,6 +403,13 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AdminLogin([Bind("TcKimlikNo,Sifre")] Kisi Kisi)
         {
+            // if kisi is already logged in then redirect to profile page
+            var kisiJsonForLogedIn = HttpContext.Session.GetString("kisi");
+            if (kisiJsonForLogedIn is not null)
+            {
+                return RedirectToAction("Profile", "Kisi");
+            }
+
             // remove all errors from model state except tc kimlik no and password
             foreach (var key in ModelState.Keys.ToList())
             {
@@ -362,6 +462,15 @@ namespace WebDevProje.Controllers
         // get: successfull login
         public IActionResult SuccessfulLogin()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+
             string kisiJson = HttpContext.Session.GetString("kisi");
             if (kisiJson is null)
             {
@@ -371,6 +480,44 @@ namespace WebDevProje.Controllers
             {
                 var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
                 return View(kisi);
+            }
+        }
+
+        // get: change password
+        public IActionResult ChangePassword()
+        {
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            return View();
+        }
+
+        // post: change password
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword([Bind("TcKimlikNo,,Sifre")] Kisi Kisi)
+        {
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+            else
+            {
+                var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+                return View(kisi);
+            }
+
+            // remove all errors from model state except tc kimlik no and password
+            foreach (var key in ModelState.Keys.ToList())
+            {
+                if (key != "TcKimlikNo" && key != "Sifre")
+                {
+                    ModelState.Remove(key);
+                }
             }
         }
     }

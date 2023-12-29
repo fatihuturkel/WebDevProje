@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using WebDevProje.Models;
 //using WebDevProje.Services;
@@ -23,11 +24,18 @@ namespace WebDevProje.Controllers
 
 		
 		public IActionResult Index()
+		{
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
 
-		{   
-			//dil değiştirme
-			//ViewBag.Welcome = _localization.Getkey("Welcome").Value;
-			var currentCulture=Thread.CurrentThread.CurrentCulture.Name;
+            //dil değiştirme
+            //ViewBag.Welcome = _localization.Getkey("Welcome").Value;
+            var currentCulture=Thread.CurrentThread.CurrentCulture.Name;
 			ViewBag.Culture = currentCulture;
 			
 			HastaneContext dbTest = new HastaneContext();

@@ -18,6 +18,14 @@ namespace WebDevProje.Controllers
         // GET: Randevu
         public async Task<IActionResult> Index()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             var hastaneContext = _context.Randevular.Include(r => r.Doktor).Include(r => r.Hasta).Include(r => r.Poliklinik);
             return View(await hastaneContext.ToListAsync());
         }
@@ -25,6 +33,14 @@ namespace WebDevProje.Controllers
         // GET: Randevu/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Randevular == null)
             {
                 return NotFound();
@@ -46,6 +62,14 @@ namespace WebDevProje.Controllers
         // GET: Randevu/Create
         public IActionResult Create()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             ViewData["DoktorId"] = new SelectList(_context.Doktorlar, "Id", "Id");
             ViewData["HastaId"] = new SelectList(_context.Hastalar, "Id", "Id");
             ViewData["PoliklinikId"] = new SelectList(_context.Poliklinikler, "Id", "Ad");
@@ -59,6 +83,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,HastaId,DoktorId,PoliklinikId,Tarih")] Randevu randevu)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(randevu);
@@ -74,6 +106,14 @@ namespace WebDevProje.Controllers
         // GET: Randevu/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Randevular == null)
             {
                 return NotFound();
@@ -97,6 +137,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,HastaId,DoktorId,PoliklinikId,Tarih")] Randevu randevu)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id != randevu.Id)
             {
                 return NotFound();
@@ -131,6 +179,15 @@ namespace WebDevProje.Controllers
         // GET: Randevu/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Randevular == null)
             {
                 return NotFound();
@@ -154,6 +211,15 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (_context.Randevular == null)
             {
                 return Problem("Entity set 'HastaneContext.Randevular'  is null.");
@@ -175,6 +241,15 @@ namespace WebDevProje.Controllers
 
         public async Task<IActionResult> randevuSaati(int? id)
         {
+            //navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Randevular == null)
             {
                 return NotFound();
@@ -214,6 +289,7 @@ namespace WebDevProje.Controllers
             }
             // get hasta id from session data
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
 
             if (kisi.Hasta == false)
             {
@@ -242,6 +318,7 @@ namespace WebDevProje.Controllers
             }
             // get hasta id from session data
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
 
             if (kisi.Hasta == false)
             {
@@ -336,6 +413,7 @@ namespace WebDevProje.Controllers
             else
             {
                 var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+                ViewBag.kisiNavbar = kisi; // navbar için
                 return View(kisi);
             }
         }
@@ -355,6 +433,7 @@ namespace WebDevProje.Controllers
             }
             // get hasta id from session data
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
 
             if (kisi.Hasta == false)
             {
@@ -430,6 +509,15 @@ namespace WebDevProje.Controllers
         // show success page after randevu is taken and show randevu details
         public IActionResult Success(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Randevular == null)
             {
                 return NotFound();
