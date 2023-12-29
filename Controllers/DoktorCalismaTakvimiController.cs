@@ -19,8 +19,6 @@ namespace WebDevProje.Controllers
         public async Task<IActionResult> Index()
         {
 
-            // !! navbar için aşağıda kod var, tekrar etmemesi için buraya yazılmadı !!
-
             // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
             var kisiJson = HttpContext.Session.GetString("kisi");
             if (kisiJson == null)

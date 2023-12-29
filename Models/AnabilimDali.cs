@@ -6,12 +6,15 @@ namespace WebDevProje.Models
 {
     public class AnabilimDali
     {
+
+
         public int Id { get; set; }
 
         // string length should be bewteen 5 and 50
         [Required(ErrorMessage = "Bu alan boş olamaz.")]
         [StringLength(50, MinimumLength = 5, ErrorMessage = "Anabilim dalı adı 2 ile 50 karakter arasında olmalıdır.")]
         [Display(Name = "Anabilim Dalı Adı")]
+
         public string Ad { get; set; }
 
         [AllowNull]

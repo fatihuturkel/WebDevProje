@@ -150,14 +150,29 @@
   <data name="Doktor" xml:space="preserve">
     <value>Doctor</value>
   </data>
+  <data name="Doktor Calisma Takvimi" xml:space="preserve">
+    <value>Doctor Work Calendar</value>
+  </data>
+  <data name="DoktorId" xml:space="preserve">
+    <value>DoctorId</value>
+  </data>
   <data name="Doğum Tarihi" xml:space="preserve">
     <value>Date of birth</value>
   </data>
   <data name="E-posta Adresi" xml:space="preserve">
     <value>E-mail Address</value>
   </data>
+  <data name="Ekle" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Erkek" xml:space="preserve">
+    <value>Men</value>
+  </data>
   <data name="Fax Numarası" xml:space="preserve">
     <value>Fax Number</value>
+  </data>
+  <data name="Giris Yap" xml:space="preserve">
+    <value>Login</value>
   </data>
   <data name="Giriş yap" xml:space="preserve">
     <value>Login</value>
@@ -165,14 +180,29 @@
   <data name="Hasta" xml:space="preserve">
     <value>Patient</value>
   </data>
+  <data name="HastaId" xml:space="preserve">
+    <value>PatientId</value>
+  </data>
   <data name="Hemşire" xml:space="preserve">
     <value>Nurse</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home page</value>
   </data>
+  <data name="Kadın" xml:space="preserve">
+    <value>Women</value>
+  </data>
+  <data name="Kisi" xml:space="preserve">
+    <value>Person</value>
+  </data>
+  <data name="Kisiler" xml:space="preserve">
+    <value>Persons</value>
+  </data>
   <data name="Kuruluş Tarihi" xml:space="preserve">
     <value>Establishment Date</value>
+  </data>
+  <data name="Lütfen Cinsiyet Seçiniz" xml:space="preserve">
+    <value>Please Select Gender</value>
   </data>
   <data name="Maaş" xml:space="preserve">
     <value>Wage</value>
@@ -182,6 +212,15 @@
   </data>
   <data name="Poliklinik Adı" xml:space="preserve">
     <value>Polyclinic Name</value>
+  </data>
+  <data name="PoliklinikId" xml:space="preserve">
+    <value>PoliclinicId</value>
+  </data>
+  <data name="Poliklinikler" xml:space="preserve">
+    <value>Polyclinics</value>
+  </data>
+  <data name="Randevu" xml:space="preserve">
+    <value>Appointment</value>
   </data>
   <data name="Soyad" xml:space="preserve">
     <value>Surname</value>
@@ -194,6 +233,9 @@
   </data>
   <data name="Telefon Numarası" xml:space="preserve">
     <value>Telephone Number</value>
+  </data>
+  <data name="Yeni Kisi Olustur" xml:space="preserve">
+    <value>Create New Person</value>
   </data>
   <data name="Yönetici" xml:space="preserve">
     <value>Manager</value>

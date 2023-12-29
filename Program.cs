@@ -1,6 +1,35 @@
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using System.Reflection;
 using WebDevProje.Models;
+using Microsoft.Extensions.Options;
+using WebDevProje.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+//dil desteði için
+#region Localizer
+builder.Services.AddSingleton<LanguageService>();
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");//dil dosyalarýnýn bulunduðu klasör
+builder.Services.AddMvc().AddViewLocalization().AddDataAnnotationsLocalization(options => options.DataAnnotationLocalizerProvider = (type, factory) =>
+{
+    var assemblyName = new AssemblyName(typeof(SharedResource).GetTypeInfo().Assembly.FullName);
+    return factory.Create(nameof(SharedResource), assemblyName.Name);
+});
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new List<CultureInfo>
+    {
+        new CultureInfo("tr-TR"),
+        new CultureInfo("en-US")
+    };
+    options.DefaultRequestCulture = new RequestCulture(culture: "tr-TR", uiCulture: "tr-TR");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+});
+#endregion
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -28,6 +57,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+
+//dil desteði için
+app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+
 
 app.UseRouting();
 

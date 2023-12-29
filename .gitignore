@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /Views/AnabilimDaliOto
 /Controllers/AnabilimDaliOtoController.cs
+/Controllers/AnabilimDaliAPIController.cs

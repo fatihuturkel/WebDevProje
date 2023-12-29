@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using WebDevProje.Models;
-//using WebDevProje.Services;
+using WebDevProje.Services;
 
 namespace WebDevProje.Controllers
 {
@@ -13,13 +13,13 @@ namespace WebDevProje.Controllers
 		
 		private readonly ILogger<HomeController> _logger;
 		//dil değiştirme
-		//private LanguageService _localization;
+		private LanguageService _localization;
 
 		// Dil değiştirme için LanguageService nesnesini constructor'da alın
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger, LanguageService localization)
 		{
 			_logger = logger;
-			//_localization = localization; // _localization nesnesini initialize edin
+			_localization = localization; // _localization nesnesini initialize edin
 		}
 
 		
@@ -34,8 +34,8 @@ namespace WebDevProje.Controllers
             }
 
             //dil değiştirme
-            //ViewBag.Welcome = _localization.Getkey("Welcome").Value;
-            var currentCulture=Thread.CurrentThread.CurrentCulture.Name;
+            ViewBag.Welcome = _localization.Getkey("Welcome").Value;
+            var currentCulture = Thread.CurrentThread.CurrentCulture.Name;
 			ViewBag.Culture = currentCulture;
 			
 			HastaneContext dbTest = new HastaneContext();
