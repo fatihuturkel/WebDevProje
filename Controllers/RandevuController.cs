@@ -348,7 +348,7 @@ namespace WebDevProje.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Randevular","Randevu");
         }
 
         private bool RandevuExists(int id)

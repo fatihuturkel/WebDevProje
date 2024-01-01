@@ -277,6 +277,18 @@ namespace WebDevProje.Controllers
                 return NotFound();
             }
 
+            // check if doktor id is same as kisi id in session data or if kisi is admin and if not, show not authorized page in kisi controller
+            if(kisi.Id != doktorCalismaTakvimi.DoktorId && kisi.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
+            if(doktorCalismaTakvimi.dokuz_on == 2 || doktorCalismaTakvimi.on_onbir == 2 || doktorCalismaTakvimi.onbir_oniki == 2 || doktorCalismaTakvimi.onuc_ondort == 2 || doktorCalismaTakvimi.ondort_onbes == 2 || doktorCalismaTakvimi.onbes_onalti == 2 || doktorCalismaTakvimi.onalti_onyedi == 2)
+            {
+                ViewBag.Error = "Bu çalışma takvimini silemezsiniz. Çünkü bu çalışma takvimine ait randevular var.";
+                return View(doktorCalismaTakvimi);
+            }
+            
             return View(doktorCalismaTakvimi);
         }
 
@@ -311,13 +323,28 @@ namespace WebDevProje.Controllers
                 return Problem("Entity set 'HastaneContext.DoktorCalismaTakvimleri'  is null.");
             }
             var doktorCalismaTakvimi = await _context.DoktorCalismaTakvimleri.FindAsync(id);
+
+            // check if doktor id is same as kisi id in session data or if kisi is admin and if not, show not authorized page in kisi controller
+            if (kisi.Id != doktorCalismaTakvimi.DoktorId && kisi.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
+
+            // check if any of hours is equal to 2 even one of them is return calisma takvimi delete page with error message
+            if (doktorCalismaTakvimi.dokuz_on == 2 || doktorCalismaTakvimi.on_onbir == 2 || doktorCalismaTakvimi.onbir_oniki == 2 || doktorCalismaTakvimi.onuc_ondort == 2 || doktorCalismaTakvimi.ondort_onbes == 2 || doktorCalismaTakvimi.onbes_onalti == 2 || doktorCalismaTakvimi.onalti_onyedi == 2)
+            {
+                ViewBag.Error = "Bu çalışma takvimini silemezsiniz. Çünkü bu çalışma takvimine ait randevular var.";
+                return View(doktorCalismaTakvimi);
+            }
+
             if (doktorCalismaTakvimi != null)
             {
                 _context.DoktorCalismaTakvimleri.Remove(doktorCalismaTakvimi);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("CalismaTakvimi", "DoktorCalismaTakvimi");
         }
 
         private bool DoktorCalismaTakvimiExists(int id)
