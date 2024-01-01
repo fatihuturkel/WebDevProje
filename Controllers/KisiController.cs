@@ -448,6 +448,20 @@ namespace WebDevProje.Controllers
                 kisi.Hasta = true;
                 _context.Add(kisi);
                 await _context.SaveChangesAsync();
+
+                var kisiler = await _context.Kisiler.ToListAsync();
+
+                foreach (var kisiinkisiler in kisiler)
+                {
+                    // if the person is hasta add this person to Hastalar table if not already added
+                    if (kisiinkisiler.Hasta && !_context.Hastalar.Any(h => h.Id == kisiinkisiler.Id))
+                    {
+                        _context.Hastalar.Add(new Hasta { Id = kisiinkisiler.Id });
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("SuccessfulLogin", "Kisi");
             }
 
