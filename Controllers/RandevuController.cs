@@ -18,6 +18,30 @@ namespace WebDevProje.Controllers
         // GET: Randevu
         public async Task<IActionResult> Index()
         {
+
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
+
+            if (kisi.Hasta != true)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
+
             var hastaneContext = _context.Randevular.Include(r => r.Doktor).Include(r => r.Hasta).Include(r => r.Poliklinik);
             return View(await hastaneContext.ToListAsync());
         }
@@ -25,6 +49,14 @@ namespace WebDevProje.Controllers
         // GET: Randevu/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Randevular == null)
             {
                 return NotFound();
@@ -46,6 +78,14 @@ namespace WebDevProje.Controllers
         // GET: Randevu/Create
         public IActionResult Create()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             ViewData["DoktorId"] = new SelectList(_context.Doktorlar, "Id", "Id");
             ViewData["HastaId"] = new SelectList(_context.Hastalar, "Id", "Id");
             ViewData["PoliklinikId"] = new SelectList(_context.Poliklinikler, "Id", "Ad");
@@ -59,6 +99,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,HastaId,DoktorId,PoliklinikId,Tarih")] Randevu randevu)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(randevu);
@@ -74,6 +122,14 @@ namespace WebDevProje.Controllers
         // GET: Randevu/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Randevular == null)
             {
                 return NotFound();
@@ -97,6 +153,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,HastaId,DoktorId,PoliklinikId,Tarih")] Randevu randevu)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id != randevu.Id)
             {
                 return NotFound();
@@ -131,6 +195,15 @@ namespace WebDevProje.Controllers
         // GET: Randevu/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Randevular == null)
             {
                 return NotFound();
@@ -154,6 +227,15 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (_context.Randevular == null)
             {
                 return Problem("Entity set 'HastaneContext.Randevular'  is null.");
@@ -175,6 +257,15 @@ namespace WebDevProje.Controllers
 
         public async Task<IActionResult> randevuSaati(int? id)
         {
+            //navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Randevular == null)
             {
                 return NotFound();
@@ -204,7 +295,7 @@ namespace WebDevProje.Controllers
         }
 
         // GET: Randevu/GetRandevu
-        public async Task<IActionResult> GetRandevu()
+        public IActionResult GetRandevu()
         {
             // get session data from cookie for current user and if it is null, redirect to login page
             var kisiJson = HttpContext.Session.GetString("kisi");
@@ -214,6 +305,7 @@ namespace WebDevProje.Controllers
             }
             // get hasta id from session data
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
 
             if (kisi.Hasta == false)
             {
@@ -232,7 +324,7 @@ namespace WebDevProje.Controllers
         // POST: Randevu/GetRandevu just for anabilim dali
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GetRandevuAnaBilim()
+        public IActionResult GetRandevuAnaBilim()
         {
             // get session data from cookie for current user and if it is null, redirect to login page
             var kisiJson = HttpContext.Session.GetString("kisi");
@@ -242,6 +334,7 @@ namespace WebDevProje.Controllers
             }
             // get hasta id from session data
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
 
             if (kisi.Hasta == false)
             {
@@ -336,6 +429,7 @@ namespace WebDevProje.Controllers
             else
             {
                 var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+                ViewBag.kisiNavbar = kisi; // navbar için
                 return View(kisi);
             }
         }
@@ -343,26 +437,27 @@ namespace WebDevProje.Controllers
         // post/GetRandevu 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public string GetRandevu(string selectedPoliklinik, string selectedDoktor, string selectedSaat, string selectedTarih)
+        public IActionResult GetRandevu(string selectedPoliklinik, string selectedDoktor, string selectedSaat, string selectedTarih)
         {
 
             // get session data from cookie for current user and if it is null, redirect to login page
             var kisiJson = HttpContext.Session.GetString("kisi");
             if (kisiJson == null)
             {
-                return "Kisi session data is null";
+                //return RedirectToAction("Login", "Kisi");
+                return RedirectToAction("Login", "Kisi");
             }
             // get hasta id from session data
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
 
             if (kisi.Hasta == false)
             {
                 // show not authorized page in kisi controller
-                return "Kisi is not a Hasta";
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             int hastaId = kisi.Id;
-
 
             DateTime DTselectedTarih = DateTime.Parse(selectedTarih);
 
@@ -383,26 +478,30 @@ namespace WebDevProje.Controllers
                     break;
                 case "onbir_oniki":
                     selectedSaat = "11:00:00";
+                    doktorCalismaTakvimi.onbir_oniki = 2;
                     break;
                 case "onuc_ondort":
                     selectedSaat = "13:00:00";
+                    doktorCalismaTakvimi.onuc_ondort = 2;
                     break;
                 case "ondort_onbes":
                     selectedSaat = "14:00:00";
+                    doktorCalismaTakvimi.ondort_onbes = 2;
                     break;
                 case "onbes_onalti":
                     selectedSaat = "15:00:00";
+                    doktorCalismaTakvimi.onbes_onalti = 2;
                     break;
                 case "onalti_onyedi":
                     selectedSaat = "16:00:00";
+                    doktorCalismaTakvimi.onalti_onyedi = 2;
                     break;
                 default:
                     break;
             }
 
-
             // take selectedTarih and selectedSaat and combine them to create a DateTime object
-            string selectedTarihandSaat =  DateTime.Parse(selectedTarih).ToString("dd/MM/yyyy") + " " + selectedSaat;
+            string selectedTarihandSaat = DateTime.Parse(selectedTarih).ToString("dd/MM/yyyy") + " " + selectedSaat;
 
             DateTime DTselectedTarihandSaat = DateTime.Parse(selectedTarihandSaat);
 
@@ -415,16 +514,45 @@ namespace WebDevProje.Controllers
                 Tarih = DTselectedTarihandSaat
             };
 
-            // find doktor calisma takvimi in doktor calisma takvimi table
-            //var doktorCalismaTakvimi = _context.DoktorCalismaTakvimleri.FirstOrDefault(d => d.DoktorId == randevu.DoktorId && d.Tarih == DTselectedTarih);
-
-
-
-
-
             _context.Add(randevu);
             _context.SaveChanges();
-            return "Randevu alındı";
+
+            //return RedirectToAction("Success", "Randevu", new { id = randevu.Id });
+            return RedirectToAction("Success", "Randevu", new { id = randevu.Id });
         }
+
+
+        // show success page after randevu is taken and show randevu details
+        public IActionResult Success(int? id)
+        {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            if (id == null || _context.Randevular == null)
+            {
+                return NotFound();
+            }
+
+            var randevu = _context.Randevular
+                .Include(r => r.Doktor)
+                .Include(r => r.Hasta)
+                .Include(r => r.Poliklinik)
+                .Include(r => r.Doktor.Kisi)
+                .Include(r => r.Hasta.Kisi)
+                .FirstOrDefault(m => m.Id == id);
+            if (randevu == null)
+            {
+                return NotFound();
+            }
+
+            return View(randevu);
+        }
+
     }
 }

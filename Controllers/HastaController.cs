@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebDevProje.Models;
 
 namespace WebDevProje.Controllers
@@ -16,7 +17,31 @@ namespace WebDevProje.Controllers
 
         // GET: Hasta
         public async Task<IActionResult> Index()
+
         {
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
+
+            if (kisi.Yonetici != true)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             var hastaneContext = _context.Hastalar.Include(h => h.Kisi);
             return View(await hastaneContext.ToListAsync());
         }
@@ -24,6 +49,14 @@ namespace WebDevProje.Controllers
         // GET: Hasta/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Hastalar == null)
             {
                 return NotFound();
@@ -43,6 +76,14 @@ namespace WebDevProje.Controllers
         // GET: Hasta/Create
         public IActionResult Create()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             ViewData["Id"] = new SelectList(_context.Kisiler, "Id", "Ad");
             return View();
         }
@@ -54,6 +95,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id")] Hasta hasta)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(hasta);
@@ -67,6 +116,14 @@ namespace WebDevProje.Controllers
         // GET: Hasta/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Hastalar == null)
             {
                 return NotFound();
@@ -88,6 +145,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id")] Hasta hasta)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id != hasta.Id)
             {
                 return NotFound();
@@ -120,6 +185,14 @@ namespace WebDevProje.Controllers
         // GET: Hasta/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Hastalar == null)
             {
                 return NotFound();
@@ -141,6 +214,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (_context.Hastalar == null)
             {
                 return Problem("Entity set 'HastaneContext.Hastalar'  is null.");

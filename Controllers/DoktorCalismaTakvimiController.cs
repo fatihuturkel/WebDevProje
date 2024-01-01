@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebDevProje.Models;
 
 namespace WebDevProje.Controllers
@@ -21,19 +18,22 @@ namespace WebDevProje.Controllers
         // GET: DoktorCalismaTakvimi
         public async Task<IActionResult> Index()
         {
-            
+
             // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
             var kisiJson = HttpContext.Session.GetString("kisi");
             if (kisiJson == null)
             {
                 return RedirectToAction("Login", "Kisi");
             }
+
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
+
             if (kisi.Doktor != true)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }
-            
+
 
             var hastaneContext = _context.DoktorCalismaTakvimleri.Include(d => d.Doktor);
             return View(await hastaneContext.ToListAsync());
@@ -42,6 +42,14 @@ namespace WebDevProje.Controllers
         // GET: DoktorCalismaTakvimi/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.DoktorCalismaTakvimleri == null)
             {
                 return NotFound();
@@ -61,6 +69,14 @@ namespace WebDevProje.Controllers
         // GET: DoktorCalismaTakvimi/Create
         public IActionResult Create()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             ViewData["DoktorId"] = new SelectList(_context.Doktorlar, "Id", "Id");
             return View();
         }
@@ -72,6 +88,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,DoktorId,Tarih,dokuz_on,on_onbir,onbir_oniki,onuc_ondort,ondort_onbes,onbes_onalti,onalti_onyedi")] DoktorCalismaTakvimi doktorCalismaTakvimi)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(doktorCalismaTakvimi);
@@ -85,6 +109,14 @@ namespace WebDevProje.Controllers
         // GET: DoktorCalismaTakvimi/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.DoktorCalismaTakvimleri == null)
             {
                 return NotFound();
@@ -106,6 +138,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DoktorId,Tarih,dokuz_on,on_onbir,onbir_oniki,onuc_ondort,ondort_onbes,onbes_onalti,onalti_onyedi")] DoktorCalismaTakvimi doktorCalismaTakvimi)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id != doktorCalismaTakvimi.Id)
             {
                 return NotFound();
@@ -138,6 +178,14 @@ namespace WebDevProje.Controllers
         // GET: DoktorCalismaTakvimi/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.DoktorCalismaTakvimleri == null)
             {
                 return NotFound();
@@ -159,6 +207,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (_context.DoktorCalismaTakvimleri == null)
             {
                 return Problem("Entity set 'HastaneContext.DoktorCalismaTakvimleri'  is null.");
@@ -168,17 +224,14 @@ namespace WebDevProje.Controllers
             {
                 _context.DoktorCalismaTakvimleri.Remove(doktorCalismaTakvimi);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DoktorCalismaTakvimiExists(int id)
         {
-          return _context.DoktorCalismaTakvimleri.Any(e => e.Id == id);
+            return _context.DoktorCalismaTakvimleri.Any(e => e.Id == id);
         }
-
-
-
     }
 }

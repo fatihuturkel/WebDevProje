@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using WebDevProje.Models;
 using WebDevProje.Services;
@@ -8,8 +9,8 @@ namespace WebDevProje.Controllers
 {
 	public class HomeController : Controller
 
-	{
-
+	{   
+		
 		private readonly ILogger<HomeController> _logger;
 		//dil değiştirme
 		private LanguageService _localization;
@@ -21,27 +22,34 @@ namespace WebDevProje.Controllers
 			_localization = localization; // _localization nesnesini initialize edin
 		}
 
-
+		
 		public IActionResult Index()
-
 		{
-			//dil değiştirme
-			ViewBag.Welcome = _localization.Getkey("Welcome").Value;
-			var currentCulture = Thread.CurrentThread.CurrentCulture.Name;
-			ViewBag.Culture = currentCulture;
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
 
+            //dil değiştirme
+            ViewBag.Welcome = _localization.Getkey("Welcome").Value;
+            var currentCulture = Thread.CurrentThread.CurrentCulture.Name;
+			ViewBag.Culture = currentCulture;
+			
 			HastaneContext dbTest = new HastaneContext();
 
 			if (dbTest.IsConnectionOpen())
 			{
 				ViewData["DatabaseConnection"] = "Veritabanı bağlantısı başarılı.";
-			}
-			else
+            }
+            else
 			{
 				ViewData["DatabaseConnection"] = "Veritabanı bağlantısı başarısız.";
-			}
+            }
 			return View();
-
+			
 		}
 
 		//dil değiştirme

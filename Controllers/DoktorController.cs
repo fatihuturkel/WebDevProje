@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebDevProje.Models;
 
 namespace WebDevProje.Controllers
@@ -21,6 +18,28 @@ namespace WebDevProje.Controllers
         // GET: Doktor
         public async Task<IActionResult> Index()
         {
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
+
+            if (kisi.Yonetici != true)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             var hastaneContext = _context.Doktorlar.Include(d => d.Kisi).Include(d => d.Poliklinik);
             return View(await hastaneContext.ToListAsync());
         }
@@ -28,6 +47,14 @@ namespace WebDevProje.Controllers
         // GET: Doktor/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Doktorlar == null)
             {
                 return NotFound();
@@ -48,6 +75,14 @@ namespace WebDevProje.Controllers
         // GET: Doktor/Create
         public IActionResult Create()
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             // Get all kisiler from Kisi table where doktor is true
             var kisiler = _context.Kisiler
                 .Where(k => k.Doktor)
@@ -85,6 +120,14 @@ namespace WebDevProje.Controllers
         // GET: Doktor/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Doktorlar == null)
             {
                 return NotFound();
@@ -140,6 +183,14 @@ namespace WebDevProje.Controllers
         // GET: Doktor/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (id == null || _context.Doktorlar == null)
             {
                 return NotFound();
@@ -162,6 +213,14 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // navbarda kisi bilgilerini göstermek için
+            var kisiJsonNavbar = HttpContext.Session.GetString("kisi");
+            if (kisiJsonNavbar is not null)
+            {
+                var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
+                ViewBag.kisiNavbar = kisiNavbar;
+            }
+
             if (_context.Doktorlar == null)
             {
                 return Problem("Entity set 'HastaneContext.Doktorlar'  is null.");
@@ -171,14 +230,14 @@ namespace WebDevProje.Controllers
             {
                 _context.Doktorlar.Remove(doktor);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DoktorExists(int id)
         {
-          return _context.Doktorlar.Any(e => e.Id == id);
+            return _context.Doktorlar.Any(e => e.Id == id);
         }
     }
 }
