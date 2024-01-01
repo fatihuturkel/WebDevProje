@@ -233,5 +233,175 @@ namespace WebDevProje.Controllers
         {
             return _context.DoktorCalismaTakvimleri.Any(e => e.Id == id);
         }
+
+
+        // Get: DoktorCalismaTakvimi/Olustur
+        public async Task <IActionResult> Olustur()
+        {
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
+
+            if(kisi.Doktor == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
+            return View();
+        }
+
+        // Post: DoktorCalismaTakvimi/Olustur
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Olustur(string Date, string workIn9am, string workIn10am, string workIn11am, string workIn1pm, string workIn2pm, string workIn3pm, string workIn4pm)
+        {
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
+
+            if (kisi.Doktor == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
+            // get doktor id from session data
+            int doktorId = kisi.Id;
+
+            // check if there is already a record for the selected date
+            var doktorCalismaTakvimi = await _context.DoktorCalismaTakvimleri
+                .FirstOrDefaultAsync(m => m.DoktorId == doktorId && m.Tarih == DateTime.Parse(Date));
+
+            // if there is no record for the selected date, create a new one
+            if (doktorCalismaTakvimi == null)
+            {
+                doktorCalismaTakvimi = new DoktorCalismaTakvimi();
+                doktorCalismaTakvimi.DoktorId = doktorId;
+                doktorCalismaTakvimi.Tarih = DateTime.Parse(Date);
+                doktorCalismaTakvimi.dokuz_on = Int32.Parse(workIn9am);
+                doktorCalismaTakvimi.on_onbir = Int32.Parse(workIn10am);
+                doktorCalismaTakvimi.onbir_oniki = Int32.Parse(workIn11am);
+                doktorCalismaTakvimi.onuc_ondort = Int32.Parse(workIn1pm);
+                doktorCalismaTakvimi.ondort_onbes = Int32.Parse(workIn2pm);
+                doktorCalismaTakvimi.onbes_onalti = Int32.Parse(workIn3pm);
+                doktorCalismaTakvimi.onalti_onyedi = Int32.Parse(workIn4pm);
+            }
+            else
+            {
+                // add model state error that say there is already a record for the selected date
+                ModelState.AddModelError("Tarih", "Bu tarihe ait bir çalışma takvimi zaten var.");
+                return View();
+            }
+
+            // check if the model is valid
+            if (ModelState.IsValid)
+            {
+                // add the new record to the database
+                _context.Add(doktorCalismaTakvimi);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Success", "DoktorCalismaTakvimi", new { id = doktorCalismaTakvimi.Id });
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+
+        // show success page after creating a new calisma takvimi
+        public IActionResult Success(int? id)
+        {
+
+            if (id == null || _context.Randevular == null)
+            {
+                return NotFound();
+            }
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
+
+            if (kisi.Doktor == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
+            var doktorCalismaTakvimi = _context.DoktorCalismaTakvimleri
+                .Include(d => d.Doktor)
+                .Include(d => d.Doktor.Kisi)
+                .FirstOrDefault(m => m.Id == id);
+
+            if (doktorCalismaTakvimi == null)
+            {
+                return NotFound();
+            }
+
+            return View(doktorCalismaTakvimi);
+
+        }
+
+        //show all calisma takvims for given doktor
+        public async Task<IActionResult> CalismaTakvimi()
+        {
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
+
+            if (kisi.Doktor == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
+            var doktorid = kisi.Id;
+
+            var doktorCalismaTakvimi = await _context.DoktorCalismaTakvimleri
+                .Include(d => d.Doktor)
+                .Include(d => d.Doktor.Kisi)
+                .Where(m => m.DoktorId == doktorid)
+                .ToListAsync();
+
+            // remove the time part from the date
+            foreach (var item in doktorCalismaTakvimi)
+            {
+                item.Tarih = item.Tarih.Date;
+            }
+
+            // dont show the past calisma takvims
+            doktorCalismaTakvimi = doktorCalismaTakvimi.Where(m => m.Tarih >= DateTime.Now.Date).ToList();
+
+
+            if (doktorCalismaTakvimi == null)
+            {
+                return NotFound();
+            }
+
+            return View(doktorCalismaTakvimi);
+        }
+
     }
 }

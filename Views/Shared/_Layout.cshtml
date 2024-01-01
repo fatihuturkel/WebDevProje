@@ -27,33 +27,52 @@
                     <li class="nav-item active">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
+                    @{
+                        if(ViewBag.KisiNavbar != null)
+                        {
+                            var kisi = ViewBag.KisiNavbar as Kisi;
+                            if (kisi.adminMi == true)
+                            {
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Anabilimdali" asp-action="Index">@_localization.Getkey("Anabilimdali").Value</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Poliklinik" asp-action="Index">@_localization.Getkey("Poliklinik").Value</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Kisi" asp-action="Index">@_localization.Getkey("Kisiler").Value</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Doktor" asp-action="Index">@_localization.Getkey("Doktor").Value</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Hasta" asp-action="Index">@_localization.Getkey("Hasta").Value</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Randevu" asp-action="Index">@_localization.Getkey("Randevu").Value</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="DoktorCalismaTakvimi" asp-action="Index">@_localization.Getkey("Doktor Calisma Takvimi").Value</a>
+                                </li>
+                            }
 
-                    <li>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Anabilimdali" asp-action="Index">@_localization.Getkey("Anabilimdali").Value</a>
-                    </li>
-                    <li>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Poliklinik" asp-action="Index">@_localization.Getkey("Poliklinik").Value</a>
-                    </li>
+                            if (kisi.Hasta == true)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Randevu" asp-action="Index">@_localization.Getkey("Randevu Al").Value</a>
+                                </li>
+                            }
 
-
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Kisi" asp-action="Index">@_localization.Getkey("Kisiler").Value</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Doktor" asp-action="Index">@_localization.Getkey("Doktor").Value</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Hasta" asp-action="Index">@_localization.Getkey("Hasta").Value</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Randevu" asp-action="Index">@_localization.Getkey("Randevu").Value</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="DoktorCalismaTakvimi" asp-action="Index">@_localization.Getkey("Doktor Calisma Takvimi").Value</a>
-                    </li>
-                    <li class="nav-item">
-
-                    </li>
+                            if (kisi.Doktor == true)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="DoktorCalismaTakvimi" asp-action="Olustur">@_localization.Getkey("Çalışma Takvimim").Value</a>
+                                </li>
+                            } 
+                        }
+                    }
+              
+         
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Localizations

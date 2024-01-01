@@ -1,0 +1,140 @@
+﻿@model WebDevProje.Models.DoktorCalismaTakvimi
+
+@{
+    ViewData["Title"] = "Success";
+}
+
+<h1>Success</h1>
+
+<div>
+    <h4>DoktorCalismaTakvimi</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tarih)
+        </dt>
+        <dd class = "col-sm-10">
+            @{
+                //show the date of the schedule
+                var tarih = Model.Tarih;
+                var tarihString = tarih.ToString("dd/MM/yyyy");
+            }
+            @Html.DisplayFor(model => tarihString)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Doktor)
+        </dt>
+        <dd class = "col-sm-10">
+            @{
+                // show doktor name and surname
+                string doktorAd = Model.Doktor.Kisi.Ad + " " + Model.Doktor.Kisi.Soyad;
+                @Html.DisplayFor(model => doktorAd)
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.dokuz_on)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.dokuz_on == 1)
+            {
+                // Show checked box
+                <span>&#x2611;</span>
+            }
+            else
+            {
+                // Show unchecked box
+                <span>&#x2610;</span>
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.on_onbir)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.on_onbir == 1)
+			{
+                // Show checked box
+                <span>&#x2611;</span>
+			}
+			else
+			{
+                // Show unchecked box
+                <span>&#x2610;</span>
+			}
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.onbir_oniki)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.onbir_oniki == 1)
+            {
+                // Show checked box
+				<span>&#x2611;</span>
+			}
+			else
+			{
+				// Show unchecked box
+				<span>&#x2610;</span>
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.onuc_ondort)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.onuc_ondort == 1)
+            {
+                // Show checked box
+                <span>&#x2611;</span>
+            }
+            else
+            {
+                // Show unchecked box
+                <span>&#x2610;</span>
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ondort_onbes)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.ondort_onbes == 1)
+            {
+                // Show checked box
+                <span>&#x2611;</span>
+            }
+            else
+            {
+                // Show unchecked box
+                <span>&#x2610;</span>
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.onbes_onalti)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.onbes_onalti == 1)
+            {
+                // Show checked box
+                <span>&#x2611;</span>
+            }
+            else
+            {
+                // Show unchecked box
+                <span>&#x2610;</span>
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.onalti_onyedi)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.onalti_onyedi == 1)
+            {
+                // Show checked box
+                <span>&#x2611;</span>
+            }
+            else
+            {
+                // Show unchecked box
+                <span>&#x2610;</span>
+            }
+        </dd>
+    </dl>
+</div>

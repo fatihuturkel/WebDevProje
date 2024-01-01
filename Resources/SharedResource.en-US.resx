@@ -172,10 +172,10 @@
     <value>Fax Number</value>
   </data>
   <data name="Giris Yap" xml:space="preserve">
-    <value>Login</value>
+    <value>Log In</value>
   </data>
   <data name="Giriş yap" xml:space="preserve">
-    <value>Login</value>
+    <value>Log In</value>
   </data>
   <data name="Hasta" xml:space="preserve">
     <value>Patient</value>
@@ -207,6 +207,12 @@
   <data name="Maaş" xml:space="preserve">
     <value>Wage</value>
   </data>
+  <data name="Normal Kullanıcılar İçin Giriş Yap" xml:space="preserve">
+    <value>Login For Regular User</value>
+  </data>
+  <data name="Oluştur" xml:space="preserve">
+    <value>Create</value>
+  </data>
   <data name="Poliklinik" xml:space="preserve">
     <value>Policlinic</value>
   </data>
@@ -221,6 +227,9 @@
   </data>
   <data name="Randevu" xml:space="preserve">
     <value>Appointment</value>
+  </data>
+  <data name="Randevu Al" xml:space="preserve">
+    <value>Make An Appointment</value>
   </data>
   <data name="Soyad" xml:space="preserve">
     <value>Surname</value>
@@ -242,6 +251,12 @@
   </data>
   <data name="Yönetici Adı-Soyadı" xml:space="preserve">
     <value>Manager Name-Surname</value>
+  </data>
+  <data name="Çalışma Takvimim" xml:space="preserve">
+    <value>My Work Calendar</value>
+  </data>
+  <data name="Çıkış Yap" xml:space="preserve">
+    <value>Log Out</value>
   </data>
   <data name="İşçi" xml:space="preserve">
     <value>Employee</value>

@@ -1,0 +1,146 @@
+﻿@model WebDevProje.Models.DoktorCalismaTakvimi
+
+@{
+    ViewData["Title"] = "doktorcalisma";
+    var hastaid = TempData["hastaid"];
+}
+
+<h1>doktorcalisma</h1>
+
+<h4>doktorcalisma</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form id="scheduleForm" asp-action="Olustur">
+
+            @{
+                // make a date selection
+                var dateList = new List<SelectListItem>();
+                for (int i = 0; i < 14; i++)
+                {
+                    dateList.Add(new SelectListItem
+                {
+                    Text = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy"),
+                    Value = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy")
+                });
+                }
+                <p>Date:</p>
+                @Html.DropDownList("Date", dateList, "Select Date")
+                <span asp-validation-for="Tarih" class="text-danger"></span>
+              
+            }
+
+
+            <label>Çalışma Saatleri</label>
+            <div class="form-group">
+                <label>
+                    <button type="button" id="checkAllButton">Check All</button>
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="910arasiCheckBox" /> 09:00 - 10:00 Arası
+                    <input type="hidden" name="workIn9am" id="910arasiHidden" value="0" />
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="1011arasiCheckBox" /> 10:00 - 11:00 Arası
+                    <input type="hidden" name="workIn10am" id="1011arasiHidden" value="0" />
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="1112arasiCheckBox" /> 11:00 - 12:00 Arası
+                    <input type="hidden" name="workIn11am" id="1112arasiHidden" value="0" />
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="1314arasiCheckBox" /> 13:00 - 14:00 Arası
+                    <input type="hidden" name="workIn1pm" id="1314arasiHidden" value="0" />
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="1415arasiCheckBox" /> 14:00 - 15:00 Arası
+                    <input type="hidden" name="workIn2pm" id="1415arasiHidden" value="0" />
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="1516arasiCheckBox" /> 15:00 - 16:00 Arası
+                    <input type="hidden" name="workIn3pm" id="1516arasiHidden" value="0" />
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="1617arasiCheckBox" /> 16:00 - 17:00 Arası
+                    <input type="hidden" name="workIn4pm" id="1617arasiHidden" value="0" />
+                </label>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function setupCheckbox(checkboxId, hiddenInputId) {
+                var checkbox = document.getElementById(checkboxId);
+                var hiddenInput = document.getElementById(hiddenInputId);
+
+                checkbox.addEventListener('change', function () {
+                    hiddenInput.value = checkbox.checked ? '1' : '0';
+                });
+            }
+
+            setupCheckbox('910arasiCheckBox', '910arasiHidden');
+            setupCheckbox('1011arasiCheckBox', '1011arasiHidden');
+            setupCheckbox('1112arasiCheckBox', '1112arasiHidden');
+            setupCheckbox('1314arasiCheckBox', '1314arasiHidden');
+            setupCheckbox('1415arasiCheckBox', '1415arasiHidden');
+            setupCheckbox('1516arasiCheckBox', '1516arasiHidden');
+            setupCheckbox('1617arasiCheckBox', '1617arasiHidden');
+
+            // Function to check all checkboxes
+            document.getElementById('checkAllButton').addEventListener('click', function () {
+                var checkboxes = document.querySelectorAll('[type="checkbox"]');
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = true;
+                    checkbox.dispatchEvent(new Event('change')); // Trigger change event
+                });
+            });
+
+            // Submit form with hidden input values only if a date is selected and at least one checkbox is checked
+            document.getElementById('scheduleForm').addEventListener('submit', function (event) {
+                var selectedDate = document.getElementById('Date').value;
+                var checkboxes = document.querySelectorAll('[type="checkbox"]');
+                var isAnyCheckboxChecked = Array.from(checkboxes).some(function (checkbox) {
+                    return checkbox.checked;
+                });
+
+                if (!selectedDate || !isAnyCheckboxChecked) {
+                    // If date is not selected or no checkbox is checked, prevent form submission
+                    event.preventDefault();
+                    alert('Lütfen formu göndermeden önce bir tarih ve en az bir çalışma saati seçin.');
+                    return;
+                }
+
+                // Trigger change event for all checkboxes
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.dispatchEvent(new Event('change'));
+                });
+            });
+        });
+    </script>
+}

@@ -274,6 +274,14 @@ namespace WebDevProje.Controllers
                 }
                 else
                 {
+
+                    // check if kisi is admin
+                    if (kisi.adminMi == true)
+                    {
+                        ModelState.AddModelError("TcKimlikNo", "Lütfen yetkili girişi yapınız.");
+                        return View(Kisi);
+                    }
+
                     // check password
                     if (Kisi.Sifre == kisi.Sifre)
                     {
@@ -433,7 +441,7 @@ namespace WebDevProje.Controllers
                 {
                     if (kisi.adminMi == false)
                     {
-                        ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir admin bulunmamaktadır.");
+                        ModelState.AddModelError("TcKimlikNo", "Bu TC kimlik numarası ile kayıtlı bir yetkili bulunmamaktadır. Lütfen normal giriş yapmayı deneyiniz.");
                         return View(Kisi);
                     }
                     // check password
