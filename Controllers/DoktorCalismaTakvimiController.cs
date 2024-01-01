@@ -29,7 +29,7 @@ namespace WebDevProje.Controllers
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
             ViewBag.kisiNavbar = kisi; // navbar için
 
-            if (kisi.Doktor == false && kisi.adminMi == false)
+            if (kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }
@@ -98,7 +98,7 @@ namespace WebDevProje.Controllers
             }
 
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
-            if (kisi.Doktor == false && kisi.adminMi == false)
+            if (kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }
@@ -130,7 +130,7 @@ namespace WebDevProje.Controllers
             }
 
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
-            if (kisi.Doktor == false && kisi.adminMi == false)
+            if (kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }
@@ -164,7 +164,7 @@ namespace WebDevProje.Controllers
             }
 
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
-            if (kisi.Doktor == false && kisi.adminMi == false)
+            if (kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }
@@ -211,7 +211,7 @@ namespace WebDevProje.Controllers
             }
 
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
-            if (kisi.Doktor == false && kisi.adminMi == false)
+            if (kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }

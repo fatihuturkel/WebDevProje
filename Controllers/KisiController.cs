@@ -448,7 +448,7 @@ namespace WebDevProje.Controllers
                 kisi.Hasta = true;
                 _context.Add(kisi);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("SuccessfulLogin", "Kisi");
             }
 
             return View(kisi);

@@ -5,9 +5,7 @@
     var hastaid = TempData["hastaid"];
 }
 
-<h1>doktorcalisma</h1>
-
-<h4>doktorcalisma</h4>
+<h4>Yeni Çalışma Takvimi</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,17 +22,22 @@
                     Value = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy")
                 });
                 }
-                <p>Date:</p>
+                <p>Tarih:</p>
                 @Html.DropDownList("Date", dateList, "Select Date")
                 <span asp-validation-for="Tarih" class="text-danger"></span>
               
             }
 
+            <br />
+            <br />
 
-            <label>Çalışma Saatleri</label>
+            <div class="form-group">
+                <label>Çalışma Saatleri</label>
+            </div>
+
             <div class="form-group">
                 <label>
-                    <button type="button" id="checkAllButton">Check All</button>
+                    <button type="button" id="checkAllButton">Hepsini Seç</button>
                 </label>
             </div>
             

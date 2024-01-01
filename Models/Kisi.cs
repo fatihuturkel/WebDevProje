@@ -12,7 +12,7 @@ namespace WebDevProje.Models
 
         // string length should be bewteen 5 and 50
         [Required(ErrorMessage = "Bu alan boş olamaz.")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "Ad alanı 5 ile 50 karakter arasında olmalıdır.")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Ad alanı 2 ile 50 karakter arasında olmalıdır.")]
         [Display(Name = "Ad")]
         public string Ad { get; set; }
 
