@@ -26,6 +26,19 @@ namespace WebDevProje.Controllers
                 ViewBag.kisiNavbar = kisiNavbar;
             }
 
+            // get session data from cookie and if it is null, redirect to login page or if it is not admin show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             return _context.Kisiler != null ?
                         View(await _context.Kisiler.ToListAsync()) :
                         Problem("Entity set 'HastaneContext.Kisiler'  is null.");
@@ -40,6 +53,19 @@ namespace WebDevProje.Controllers
             {
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not admin show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisicontrol = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisicontrol.adminMi is false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             if (id == null || _context.Kisiler == null)
@@ -67,6 +93,19 @@ namespace WebDevProje.Controllers
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
             }
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not admin show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
             return View();
         }
 
@@ -77,6 +116,20 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Ad,Soyad,Cinsiyet,DogumTarihi,TelefonNo,Eposta,TcKimlikNo,Doktor,Hasta,Hemsire,Isci,Yonetici,Sifre")] Kisi kisi)
         {
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not admin show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisicontrol = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisicontrol.adminMi is false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             if (ModelState.IsValid)
             {
                 // bu blokta eğer doktor, hemşire, işçi ve yönetici görevlerinden sadece birinin veya hiçbirinin seçilmemesini sağlar
@@ -107,6 +160,19 @@ namespace WebDevProje.Controllers
                 ViewBag.kisiNavbar = kisiNavbar;
             }
 
+            // get session data from cookie and if it is null, redirect to login page or if it is not admin show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisicontrol = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisicontrol.adminMi is false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             if (id == null || _context.Kisiler == null)
             {
                 return NotFound();
@@ -127,6 +193,20 @@ namespace WebDevProje.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Soyad,Cinsiyet,DogumTarihi,TelefonNo,Eposta,TcKimlikNo,Doktor,Hasta,Hemsire,Isci,Yonetici,Sifre,adminMi")] Kisi kisi)
         {
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not admin show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisicontrol = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisicontrol.adminMi is false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             if (id != kisi.Id)
             {
                 return NotFound();
@@ -175,6 +255,19 @@ namespace WebDevProje.Controllers
                 ViewBag.kisiNavbar = kisiNavbar;
             }
 
+            // get session data from cookie and if it is null, redirect to login page or if it is not admin show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisicontrol = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisicontrol.adminMi is false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             if (id == null || _context.Kisiler == null)
             {
                 return NotFound();
@@ -201,6 +294,19 @@ namespace WebDevProje.Controllers
             {
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not admin show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisicontrol = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisicontrol.adminMi is false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             if (_context.Kisiler == null)
