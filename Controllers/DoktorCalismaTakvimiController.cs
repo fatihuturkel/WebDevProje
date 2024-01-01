@@ -29,7 +29,7 @@ namespace WebDevProje.Controllers
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
             ViewBag.kisiNavbar = kisi; // navbar için
 
-            if (kisi.Doktor != true)
+            if (kisi.Doktor == false && kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }
@@ -48,6 +48,19 @@ namespace WebDevProje.Controllers
             {
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.Doktor == false && kisi.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             if (id == null || _context.DoktorCalismaTakvimleri == null)
@@ -77,6 +90,19 @@ namespace WebDevProje.Controllers
                 ViewBag.kisiNavbar = kisiNavbar;
             }
 
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.Doktor == false && kisi.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             ViewData["DoktorId"] = new SelectList(_context.Doktorlar, "Id", "Id");
             return View();
         }
@@ -94,6 +120,19 @@ namespace WebDevProje.Controllers
             {
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.Doktor == false && kisi.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             if (ModelState.IsValid)
@@ -115,6 +154,19 @@ namespace WebDevProje.Controllers
             {
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.Doktor == false && kisi.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             if (id == null || _context.DoktorCalismaTakvimleri == null)
@@ -149,6 +201,19 @@ namespace WebDevProje.Controllers
             if (id != doktorCalismaTakvimi.Id)
             {
                 return NotFound();
+            }
+
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.Doktor == false && kisi.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             if (ModelState.IsValid)
@@ -186,6 +251,19 @@ namespace WebDevProje.Controllers
                 ViewBag.kisiNavbar = kisiNavbar;
             }
 
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.Doktor == false && kisi.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             if (id == null || _context.DoktorCalismaTakvimleri == null)
             {
                 return NotFound();
@@ -215,6 +293,19 @@ namespace WebDevProje.Controllers
                 ViewBag.kisiNavbar = kisiNavbar;
             }
 
+            // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.Doktor == false && kisi.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             if (_context.DoktorCalismaTakvimleri == null)
             {
                 return Problem("Entity set 'HastaneContext.DoktorCalismaTakvimleri'  is null.");
@@ -236,7 +327,7 @@ namespace WebDevProje.Controllers
 
 
         // Get: DoktorCalismaTakvimi/Olustur
-        public async Task <IActionResult> Olustur()
+        public async Task<IActionResult> Olustur()
         {
             // get session data from cookie and if it is null, redirect to login page or if it is not doktor show them "you are not authorized" page
             var kisiJson = HttpContext.Session.GetString("kisi");
@@ -248,7 +339,7 @@ namespace WebDevProje.Controllers
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
             ViewBag.kisiNavbar = kisi; // navbar için
 
-            if(kisi.Doktor == false)
+            if (kisi.Doktor == false && kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }
@@ -272,7 +363,7 @@ namespace WebDevProje.Controllers
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
             ViewBag.kisiNavbar = kisi; // navbar için
 
-            if (kisi.Doktor == false)
+            if (kisi.Doktor == false && kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }
@@ -339,7 +430,7 @@ namespace WebDevProje.Controllers
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
             ViewBag.kisiNavbar = kisi; // navbar için
 
-            if (kisi.Doktor == false)
+            if (kisi.Doktor == false && kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }
@@ -372,7 +463,7 @@ namespace WebDevProje.Controllers
             var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
             ViewBag.kisiNavbar = kisi; // navbar için
 
-            if (kisi.Doktor == false)
+            if (kisi.Doktor == false && kisi.adminMi == false)
             {
                 return RedirectToAction("NotAuthorized", "Kisi");
             }

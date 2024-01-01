@@ -26,6 +26,19 @@ namespace WebDevProje.Controllers
                 ViewBag.kisiNavbar = kisiNavbar;
             }
 
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                // redirect to not authorized page
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             var hastaneContext = _context.AnabilimDallari.Include(a => a.Yonetici);
             return View(await hastaneContext.ToListAsync());
         }
@@ -44,6 +57,19 @@ namespace WebDevProje.Controllers
             if (id == null || _context.AnabilimDallari == null)
             {
                 return NotFound();
+            }
+
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                // redirect to not authorized page
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             var anabilimDali = await _context.AnabilimDallari
@@ -66,6 +92,19 @@ namespace WebDevProje.Controllers
             {
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                // redirect to not authorized page
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             // Get all yöneticiler from Kisi table
@@ -97,6 +136,19 @@ namespace WebDevProje.Controllers
             {
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                // redirect to not authorized page
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             if (ModelState.IsValid)
@@ -149,6 +201,19 @@ namespace WebDevProje.Controllers
                 return NotFound();
             }
 
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                // redirect to not authorized page
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             var anabilimDali = await _context.AnabilimDallari.FindAsync(id);
             if (anabilimDali == null)
             {
@@ -182,6 +247,19 @@ namespace WebDevProje.Controllers
             {
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                // redirect to not authorized page
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             if (id != anabilimDali.Id)
@@ -235,6 +313,19 @@ namespace WebDevProje.Controllers
                 ViewBag.kisiNavbar = kisiNavbar;
             }
 
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                // redirect to not authorized page
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
             if (id == null || _context.AnabilimDallari == null)
             {
                 return NotFound();
@@ -262,6 +353,19 @@ namespace WebDevProje.Controllers
             {
                 var kisiNavbar = JsonConvert.DeserializeObject<Kisi>(kisiJsonNavbar);
                 ViewBag.kisiNavbar = kisiNavbar;
+            }
+
+            string kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson is null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            if (kisi.adminMi is false)
+            {
+                // redirect to not authorized page
+                return RedirectToAction("NotAuthorized", "Kisi");
             }
 
             if (_context.AnabilimDallari == null)

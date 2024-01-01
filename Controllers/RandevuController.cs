@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using WebDevProje.Migrations;
 using WebDevProje.Models;
 
 namespace WebDevProje.Controllers
@@ -193,6 +194,21 @@ namespace WebDevProje.Controllers
                 return NotFound();
             }
 
+            var kisi= HttpContext.Session.GetString("kisi");
+            if (kisi == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+
+            // if kisi is either admin or hasta, show not authorized page in kisi controller
+            var kisiObj = JsonConvert.DeserializeObject<Kisi>(kisi);
+            if (kisiObj.adminMi == false && kisiObj.Hasta != true)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
+
+
             var randevu = await _context.Randevular
                 .Include(r => r.Doktor)
                 .Include(r => r.Hasta)
@@ -202,6 +218,13 @@ namespace WebDevProje.Controllers
             {
                 return NotFound();
             }
+            
+            // check if randevu id is same as kisi id in session data or if kisi is admin and if not, show not authorized page in kisi controller
+            if (randevu.HastaId != kisiObj.Id && kisiObj.adminMi == false)
+            {
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
 
             return View(randevu);
         }
@@ -227,6 +250,35 @@ namespace WebDevProje.Controllers
             var randevu = await _context.Randevular.FindAsync(id);
             if (randevu != null)
             {
+                // if randevu is deleted, set doktor calisma takvimi to 1
+                var doktorCalismaTakvimi = _context.DoktorCalismaTakvimleri.FirstOrDefault(d => d.DoktorId == randevu.DoktorId && d.Tarih == randevu.Tarih.Date);
+                switch (randevu.Tarih.Hour)
+                {
+                    case 9:
+                        doktorCalismaTakvimi.dokuz_on = 1;
+                        break;
+                    case 10:
+                        doktorCalismaTakvimi.on_onbir = 1;
+                        break;
+                    case 11:
+                        doktorCalismaTakvimi.onbir_oniki = 1;
+                        break;
+                    case 13:
+                        doktorCalismaTakvimi.onuc_ondort = 1;
+                        break;
+                    case 14:
+                        doktorCalismaTakvimi.ondort_onbes = 1;
+                        break;
+                    case 15:
+                        doktorCalismaTakvimi.onbes_onalti = 1;
+                        break;
+                    case 16:
+                        doktorCalismaTakvimi.onalti_onyedi = 1;
+                        break;
+                    default:
+                        // Handle the case when randevu.Tarih.Hour is none of the specified values.
+                        break;
+                }
                 _context.Randevular.Remove(randevu);
             }
 
@@ -401,23 +453,6 @@ namespace WebDevProje.Controllers
             return View();
         }
 
-
-        public IActionResult Profile()
-        {
-            // get kisi object from session
-            var kisiJson = HttpContext.Session.GetString("kisi");
-            if (kisiJson is null)
-            {
-                return RedirectToAction("Login", "Kisi");
-            }
-            else
-            {
-                var kisi = JsonConvert.DeserializeObject<Kisi>(kisiJson);
-                ViewBag.kisiNavbar = kisi; // navbar için
-                return View(kisi);
-            }
-        }
-
         // post/GetRandevu 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -538,5 +573,38 @@ namespace WebDevProje.Controllers
             return View(randevu);
         }
 
+
+        //show randevular for current user
+        public IActionResult Randevular()
+        {
+            // get session data from cookie for current user and if it is null, redirect to login page
+            var kisiJson = HttpContext.Session.GetString("kisi");
+            if (kisiJson == null)
+            {
+                return RedirectToAction("Login", "Kisi");
+            }
+            // get hasta id from session data
+            var kisi = Newtonsoft.Json.JsonConvert.DeserializeObject<Kisi>(kisiJson);
+            ViewBag.kisiNavbar = kisi; // navbar için
+
+            if (kisi.Hasta == false)
+            {
+                // show not authorized page in kisi controller
+                return RedirectToAction("NotAuthorized", "Kisi");
+            }
+
+            int hastaId = kisi.Id;
+
+            // get randevular for current user
+            var randevular = _context.Randevular
+                .Include(r => r.Doktor)
+                .Include(r => r.Hasta)
+                .Include(r => r.Poliklinik)
+                .Include(r => r.Doktor.Kisi)
+                .Include(r => r.Hasta.Kisi)
+                .Where(r => r.HastaId == hastaId).ToList();
+
+            return View(randevular);
+        }
     }
 }

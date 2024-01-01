@@ -3,11 +3,61 @@
     var token = Xsrf.GetAndStoreTokens(Context).RequestToken;
 }
 
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        color: #495057;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    h3 {
+        color: #343a40;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    select, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 4px;
+        border: 1px solid #ced4da;
+        font-size: 14px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+        button:hover {
+            background-color: #0069d9;
+        }
+
+    .container {
+        width: 60%;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
 @{
-    ViewData["Title"] = "GetRandevuAnaBilim";
+    ViewData["Title"] = "Randevu";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -38,7 +88,7 @@
         }
     </select>
 
-    <h3>Doktor Calisma Saatleri</h3>
+    <h3>Randevu Saatleri</h3>
     <select id="saatSelect">
         @foreach (var takvim in doktorCalismaTakvimleri)
         {
@@ -141,139 +191,23 @@
 			var selectedDoktor = document.getElementById("doktorSelect").value;
 			var selectedSaat = document.getElementById("saatSelect").value;
 
-			// Set the hidden form values
-			document.getElementById("selectedPoliklinik").value = selectedPoliklinik;
-			document.getElementById("selectedDoktor").value = selectedDoktor;
-			document.getElementById("selectedSaat").value = selectedSaat;
+            // Check if both poliklinik and saat are selected
+            if (selectedPoliklinik && selectedDoktor && selectedSaat) {
+                // Set the hidden form values
+                document.getElementById("selectedPoliklinik").value = selectedPoliklinik;
+                document.getElementById("selectedDoktor").value = selectedDoktor;
+                document.getElementById("selectedSaat").value = selectedSaat;
 
-			// Submit the form
-			document.getElementById("hiddenForm").submit();
+                // Submit the form
+                document.getElementById("hiddenForm").submit();
 
-            //add message to the console
-            console.log("Form submitted");
+                // add message to the console
+                console.log("Form submitted");
+            } else {
+                // Display an alert or message indicating that both selections are required
+                alert("Lütfen poliklinik, doktor ve randevu saatini seçiniz.");
+            }
 		});
-
-        
-
-
-        /*
-        document.getElementById("submitButton").addEventListener("click", function () {
-            // Retrieve the selected values
-            var selectedPoliklinik = document.getElementById("poliklinikSelect").value;
-            var selectedDoktor = document.getElementById("doktorSelect").value;
-            var selectedSaat = document.getElementById("saatSelect").value;
-
-
-            // Create a data object with the selected values
-            var data = {
-                poliklinik: selectedPoliklinik,
-                doktor: selectedDoktor,
-                saat: selectedSaat
-            };
-
-            // Use the Fetch API to send a POST request to your action method
-            fetch("/Randevu/GetRandevu", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "RequestVerificationToken": antiforgeryToken  // Include the Antiforgery token in the headers
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => {
-                    // Handle the response as needed
-                    if (response.ok) {
-                        // Successful response, you may redirect or perform other actions
-                        console.log("Request successful");
-                        // redirect to the next page
-                        window.location.href = "/Randevu/GetRandevu";
-                    } else {
-                        // Handle errors
-                        console.error("Request failed");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-        });
-
-        /*
-        document.getElementById("submitButton").addEventListener("click", function () {
-            // Retrieve the selected values
-            var selectedPoliklinik = document.getElementById("poliklinikSelect").value;
-            var selectedDoktor = document.getElementById("doktorSelect").value;
-            var selectedSaat = document.getElementById("saatSelect").value;
-
-            // Create a data object with the selected values
-            var data = {
-                poliklinik: selectedPoliklinik,
-                doktor: selectedDoktor,
-                saat: selectedSaat
-            };
-
-            // Use the Fetch API to send a POST request to your action method
-            fetch("/Randevu/GetRandevu", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => {
-                    // Handle the response as needed
-                    if (response.ok) {
-                        // Successful response, you may redirect or perform other actions
-                        console.log("Request successful");
-                    } else {
-                        // Handle errors
-                        console.error("Request failed");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-        });
-        
-
-
-        document.getElementById("submitButton").addEventListener("click", function () {
-            // Gather selected data
-            var selectedPoliklinikId = document.getElementById("poliklinikSelect").value;
-            var selectedDoktorId = document.getElementById("doktorSelect").value;
-            var selectedSaat = document.getElementById("saatSelect").value;
-
-            // Create a form dynamically
-            var form = document.createElement("form");
-            form.method = "POST";  // Set the form method (POST or GET)
-            form.action = "/Randevu/GetRandevu";  // Set the action method
-
-            // Add hidden input fields for selected data
-            var poliklinikInput = document.createElement("input");
-            poliklinikInput.type = "hidden";
-            poliklinikInput.name = "selectedPoliklinikId";
-            poliklinikInput.value = selectedPoliklinikId;
-            form.appendChild(poliklinikInput);
-
-            var doktorInput = document.createElement("input");
-            doktorInput.type = "hidden";
-            doktorInput.name = "selectedDoktorId";
-            doktorInput.value = selectedDoktorId;
-            form.appendChild(doktorInput);
-
-            var saatInput = document.createElement("input");
-            saatInput.type = "hidden";
-            saatInput.name = "selectedSaat";
-            saatInput.value = selectedSaat;
-            form.appendChild(saatInput);
-
-
-
-            // Append the form to the body and submit it
-            document.body.appendChild(form);
-            form.submit();
-        });
-        */
-
     </script>
 }
 else

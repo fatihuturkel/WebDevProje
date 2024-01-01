@@ -1,9 +1,9 @@
 ﻿@page "/NotAuthorized"
 
-<h1>You are not authorized to access this page.</h1>
+<h1>@_localization.Getkey("You are not authorized to access this page.")</h1>
 
-<p>You may not have sufficient permissions or may be logged out. Please try one of the following:</p>
+<p>@_localization.Getkey("You may not have sufficient permissions or you may be logged out. Please try logging in again:")</p>
 
 <ul>
-    <a asp-action="Login">Log In</a>
+    <a asp-action="Login">@_localization.Getkey("Giriş Yap")</a>
 </ul>

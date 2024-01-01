@@ -289,7 +289,7 @@ namespace WebDevProje.Controllers
                         // save kisi object as json in session
                         string kisiJson = JsonConvert.SerializeObject(kisi);
                         HttpContext.Session.SetString("kisi", kisiJson);
-                        return RedirectToAction("Profile", "Kisi");
+                        return RedirectToAction("SuccessfulLogin", "Kisi");
                     }
                     else
                     {
@@ -465,7 +465,6 @@ namespace WebDevProje.Controllers
                 return View(Kisi);
             }
         }
-
 
         // get: successfull login
         public IActionResult SuccessfulLogin()

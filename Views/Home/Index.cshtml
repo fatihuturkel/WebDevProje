@@ -2,9 +2,16 @@
     ViewData["Title"] = "Home Page";
     string databaseconnection = ViewData["DatabaseConnection"].ToString();
 }
+<header>
+    <style>
+        .body {
+            background: url('/images/hastaneanasayfa.png') !important;
+            background-size: cover !important;
+        }
+    </style>
+</header>
+<body class="body">
+    <h1 class="display-">@_localization.Getkey("Hoşgeldiniz")!!</h1>
+    <text>Lütfen işlem panelini görmek için giriş yapınız.</text>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Database connection: @databaseconnection</p>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+</body>

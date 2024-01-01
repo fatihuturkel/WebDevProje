@@ -189,6 +189,9 @@
   <data name="Home" xml:space="preserve">
     <value>Home page</value>
   </data>
+  <data name="Hoşgeldiniz" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
   <data name="Kadın" xml:space="preserve">
     <value>Women</value>
   </data>

@@ -5,13 +5,63 @@
     var hastaid = TempData["hastaid"];
 }
 
-<h1>randevuAl</h1>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1, h4 {
+        color: #333;
+        text-align: center;
+    }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .col-md-4 {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        a:hover {
+            color: #0056b3;
+        }
+</style>
+
 
 <h4>Randevu</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="GetRandevuAnaBilim">
+        <form id="randevuForm" asp-action="GetRandevuAnaBilim" onsubmit="return validateForm()">
             @if (ViewData["AnabilimDaliId"] is SelectList anabilimDaliIdList)
             {
                 <p>Anabilim Dali:</p>
@@ -20,16 +70,16 @@
             @{
                 // make a date selection
                 var dateList = new List<SelectListItem>();
-				for (int i = 0; i < 14; i++)
-				{
-					dateList.Add(new SelectListItem
-					{
-						Text = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy"),
-						Value = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy")
-					});
-				}
-				<p>Date:</p>
-				@Html.DropDownList("Date", dateList, "Select Date")
+                for (int i = 0; i < 14; i++)
+                {
+                    dateList.Add(new SelectListItem
+                {
+                    Text = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy"),
+                    Value = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy")
+                });
+                }
+                <p>Date:</p>
+                @Html.DropDownList("Date", dateList, "Select Date")
             }
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -38,11 +88,20 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
+    <script>
+        function validateForm() {
+            var anabilimDaliId = document.getElementById("AnabilimDaliId").value;
+            var date = document.getElementById("Date").value;
+
+            if (anabilimDaliId == "" || date == "") {
+                alert("Please select both Anabilim Dali and Date.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

@@ -120,4 +120,13 @@
   <data name="Create" xml:space="preserve">
     <value>Anasayfa</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Anasayfa</value>
+  </data>
+  <data name="You are not authorized to access this page." xml:space="preserve">
+    <value>Bu sayfaya erişmek için yetkiniz yok.</value>
+  </data>
+  <data name="You may not have sufficient permissions or you may be logged out. Please try logging in again:" xml:space="preserve">
+    <value>Yeterli izinleriniz olmayabilir veya çıkış yapmış olabilirsiniz. Lütfen tekrar giriş yapmayı deneyin:</value>
+  </data>
 </root>
